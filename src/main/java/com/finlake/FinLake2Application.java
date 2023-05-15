@@ -7,13 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class FinLake2Application {
 
     public static void main(String[] args) {
-
-
-
-
-
-
-
         SpringApplication.run(FinLake2Application.class, args);
     }
 
