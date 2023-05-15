@@ -4,6 +4,10 @@ import com.finlake.model.User;
 import com.finlake.repository.UserRepository;
 import io.jsonwebtoken.ExpiredJwtException;
 
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,17 +15,14 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
-
-import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class JwtAuthFilter implements Filter {
+public class JwtAuthFilter extends OncePerRequestFilter {
 
     @Autowired
     private UserRepository userRepository;
@@ -30,10 +31,8 @@ public class JwtAuthFilter implements Filter {
     private JwtTokenHelper jwtTokenHelper;
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-        HttpServletResponse httpResponse = (HttpServletResponse) response;
-        String requestToken = httpRequest.getHeader("Authorization");
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        String requestToken = request.getHeader("Authorization");
         System.out.println(requestToken);
         String email = null, token = null;
         if (requestToken != null && requestToken.startsWith("Bearer")) {
@@ -55,7 +54,7 @@ public class JwtAuthFilter implements Filter {
             authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
             if (this.jwtTokenHelper.validateToken(token, user)) {
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(user, null, authorities);
-                usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails((jakarta.servlet.http.HttpServletRequest) httpRequest));
+                usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
             } else {
                 System.out.println("Invalid jwt Token");
@@ -63,7 +62,6 @@ public class JwtAuthFilter implements Filter {
         } else {
             System.out.println("Username is null or context is not null");
         }
-        filterChain.doFilter(httpRequest, httpResponse);
+        filterChain.doFilter(request, response);
     }
-
 }
