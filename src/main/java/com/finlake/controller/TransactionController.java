@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin("http://localhost:8080")
+@CrossOrigin("/v1")
+@RequestMapping("/v1")
 public class TransactionController {
 
     @Autowired

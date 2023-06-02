@@ -3,12 +3,16 @@ package com.finlake.controller;
 import com.finlake.model.TransactionSplit;
 import com.finlake.repository.TransactionSplitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@CrossOrigin("http://localhost:8080")
+@CrossOrigin("/v1")
+@RequestMapping("/v1")
 public class TransactionSplitController {
 
     @Autowired
@@ -20,7 +24,7 @@ public class TransactionSplitController {
     }
 
     @GetMapping("/listTransactionSplits")
-    List<TransactionSplit> getUsers() {
+    List<TransactionSplit> getTransactionSplits() {
         return transactionSplitRepository.findAll();
     }
 }

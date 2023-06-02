@@ -1,17 +1,28 @@
 package com.finlake.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.finlake.enums.RoleType;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
-public class User {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+public class User implements UserDetails {
 
     @Id
     @Column(name = "id", columnDefinition = "VARCHAR(36)")
@@ -25,7 +36,12 @@ public class User {
 
     private String password;
 
-    private String mobile_number;
+    @Column(name = "mobile_number", columnDefinition = "VARCHAR(36)")
+    private String mobileNumber;
+
+    @Column(name = "role_type", columnDefinition = "VARCHAR(36)")
+    @Enumerated(EnumType.STRING)
+    private RoleType roleType;
 
     @GeneratedValue
     @Column(name = "created_at", columnDefinition = "TIMESTAMP")
@@ -37,72 +53,38 @@ public class User {
     @UpdateTimestamp
     private Timestamp updated_at;
 
-    public User() {
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        return List.of(new SimpleGrantedAuthority(roleType.name()));
+        return List.of(new SimpleGrantedAuthority("USER"));
     }
 
-    public User(String id, String name, String email, String password, String mobile_number, Timestamp created_at, Timestamp updated_at) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.mobile_number = mobile_number;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
+    @Override
+    public String getUsername() {
         return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
     }
 
-    public String getMobile_number() {
-        return mobile_number;
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
     }
 
-    public void setMobile_number(String mobile_number) {
-        this.mobile_number = mobile_number;
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
     }
 
-    public Timestamp getCreated_at() {
-        return created_at;
-    }
-
-    public void setCreated_at(Timestamp created_at) {
-        this.created_at = created_at;
-    }
-
-    public Timestamp getUpdated_at() {
-        return updated_at;
-    }
-
-    public void setUpdated_at(Timestamp updated_at) {
-        this.updated_at = updated_at;
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

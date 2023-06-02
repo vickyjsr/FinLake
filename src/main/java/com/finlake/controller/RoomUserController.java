@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin("http://localhost:8080")
+@CrossOrigin("/v1")
+@RequestMapping("/v1")
 public class RoomUserController {
 
     @Autowired
@@ -26,6 +27,7 @@ public class RoomUserController {
 
     @GetMapping("/filterUserFromRoomUser")
     public List<RoomUser> filterUserFromRoomUser(@RequestParam("id") String id) {
+        System.out.println(id+" "+roomUserRepository.findAllByUser_Id(id).toString());
         return roomUserRepository.findAllByUser_Id(id);
     }
 

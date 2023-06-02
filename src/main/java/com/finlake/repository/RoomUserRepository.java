@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface RoomUserRepository extends JpaRepository<RoomUser, String> {
 
-    @Query("SELECT c FROM RoomUser c JOIN c.user u WHERE u.id = :id")
+    @Query("SELECT c FROM RoomUser c WHERE c.user.id = :id")
     List<RoomUser> findAllByUser_Id(String id);
 
     @Query("SELECT c FROM RoomUser c JOIN c.finance_room u WHERE u.id = :id")

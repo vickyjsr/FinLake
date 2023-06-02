@@ -97,4 +97,16 @@ public class FinanceRoom {
     public void setUpdated_at(Timestamp updated_at) {
         this.updated_at = updated_at;
     }
+
+    @Override
+    public String toString() {
+        return "FinanceRoom{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", created_by=" + created_by +
+                ", room_type=" + room_type +
+                ", created_at=" + created_at +
+                ", updated_at=" + updated_at +
+                '}';
+    }
 }
