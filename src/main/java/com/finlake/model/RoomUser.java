@@ -16,8 +16,6 @@ public class RoomUser {
     @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
-    private String balance;
-
     @ManyToOne
     @JoinColumn(name = "finance_room", referencedColumnName = "id",
             foreignKey = @ForeignKey(name = "FK_room_users_finance_rooms"))
@@ -27,6 +25,8 @@ public class RoomUser {
     @JoinColumn(name = "user", referencedColumnName = "id",
             foreignKey = @ForeignKey(name = "FK_room_users_users"))
     private User user;
+
+    private String status;
 
     @GeneratedValue
     @Column(name = "created_at", columnDefinition = "TIMESTAMP")
@@ -42,13 +42,13 @@ public class RoomUser {
 
     }
 
-    public RoomUser(String id, String balance, FinanceRoom finance_room, User user, Timestamp created_at, Timestamp updated_at) {
+    public RoomUser(String id, FinanceRoom finance_room, User user, Timestamp created_at, Timestamp updated_at, String status) {
         this.id = id;
-        this.balance = balance;
         this.finance_room = finance_room;
         this.user = user;
         this.created_at = created_at;
         this.updated_at = updated_at;
+        this.status = status;
     }
 
     public String getId() {
@@ -57,14 +57,6 @@ public class RoomUser {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getBalance() {
-        return balance;
-    }
-
-    public void setBalance(String balance) {
-        this.balance = balance;
     }
 
     public FinanceRoom getFinance_room() {
@@ -81,6 +73,14 @@ public class RoomUser {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Timestamp getCreated_at() {

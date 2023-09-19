@@ -27,6 +27,8 @@ public class FinanceRoom {
     @Enumerated(EnumType.STRING)
     private RoomType room_type;
 
+    private String status;
+
     @GeneratedValue
     @Column(name = "created_at", columnDefinition = "TIMESTAMP")
     @CreationTimestamp
@@ -41,11 +43,12 @@ public class FinanceRoom {
 
     }
 
-    public FinanceRoom(String id, String name, User created_by, RoomType room_type, Timestamp created_at, Timestamp updated_at) {
+    public FinanceRoom(String id, String name, User created_by, RoomType room_type, Timestamp created_at, Timestamp updated_at, String status) {
         this.id = id;
         this.name = name;
         this.created_by = created_by;
         this.room_type = room_type;
+        this.status = status;
         this.created_at = created_at;
         this.updated_at = updated_at;
     }
@@ -80,6 +83,14 @@ public class FinanceRoom {
 
     public void setRoom_type(RoomType room_type) {
         this.room_type = room_type;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Timestamp getCreated_at() {

@@ -30,6 +30,8 @@ public class TransactionSplit {
 
     private String amount;
 
+    private String status;
+
     @GeneratedValue
     @Column(name = "created_at", columnDefinition = "TIMESTAMP")
     @CreationTimestamp
@@ -44,11 +46,12 @@ public class TransactionSplit {
 
     }
 
-    public TransactionSplit(String id, Transaction transaction, User user, String amount, Timestamp created_at, Timestamp updated_at) {
+    public TransactionSplit(String id, Transaction transaction, User user, String amount, Timestamp created_at, Timestamp updated_at, String status) {
         this.id = id;
         this.transaction = transaction;
         this.user = user;
         this.amount = amount;
+        this.status = status;
         this.created_at = created_at;
         this.updated_at = updated_at;
     }
@@ -83,6 +86,14 @@ public class TransactionSplit {
 
     public void setAmount(String amount) {
         this.amount = amount;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Timestamp getCreated_at() {

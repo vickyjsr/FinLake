@@ -16,7 +16,7 @@ public class Transaction {
     @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
-    private String name, description, amount;
+    private String name, description, amount, status;
 
     @ManyToOne
     @JoinColumn(name = "paid_by_user", referencedColumnName = "id",
@@ -42,13 +42,14 @@ public class Transaction {
 
     }
 
-    public Transaction(String id, String name, String description, String amount, User paid_by_user, FinanceRoom finance_room, Timestamp created_at, Timestamp updated_at) {
+    public Transaction(String id, String name, String description, String amount, User paid_by_user, FinanceRoom finance_room, String status, Timestamp created_at, Timestamp updated_at) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.amount = amount;
         this.paid_by_user = paid_by_user;
         this.finance_room = finance_room;
+        this.status = status;
         this.created_at = created_at;
         this.updated_at = updated_at;
     }
@@ -83,6 +84,14 @@ public class Transaction {
 
     public void setAmount(String amount) {
         this.amount = amount;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public User getPaid_by_user() {

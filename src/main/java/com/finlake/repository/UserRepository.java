@@ -13,4 +13,7 @@ public interface UserRepository extends JpaRepository<User, String> {
 
     @Query("select user from User user")
     List<User> findAllUsers(Pageable pageable);
+
+    @Query("select user from User user where user.id != :id")
+    List<User> findAllUsersFiltered(String id, Pageable pageable);
 }

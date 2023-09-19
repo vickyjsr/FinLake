@@ -13,5 +13,5 @@ public class AuthenticationResponse {
 
     private String token;
     String errorMessage;
-
+    private String user_id;
 }

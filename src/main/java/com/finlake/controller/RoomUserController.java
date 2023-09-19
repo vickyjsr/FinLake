@@ -35,5 +35,4 @@ public class RoomUserController {
     public List<RoomUser> filterFinanceRoomFromRoomUser(@RequestParam("id") String id) {
         return roomUserRepository.findAllByFinanceRoom_Id(id);
     }
-
 }
