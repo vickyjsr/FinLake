@@ -95,7 +95,6 @@ public class FinanceRoomController {
             List<Sort.Order> sorting = new ArrayList<>();
             sorting.add(new Sort.Order(Sort.Direction.ASC, "updated_at"));
             Pageable pageable = PageRequest.of(page, pageSize, Sort.by(sorting));
-            System.out.println("jnd jalwn ljakwnmekal a kwlankn jfksnwbihjkciajksnfbvhcjnas");
             return financeRoomRepository.findAllByIdAndStatusAndPagination(financeRoomIds, status, pageable);
         }
 
