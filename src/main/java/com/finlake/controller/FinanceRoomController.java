@@ -1,6 +1,7 @@
 package com.finlake.controller;
 
 import com.finlake.JsonPayloadConverter;
+import com.finlake.enums.GlobalEnum;
 import com.finlake.enums.RoomType;
 import com.finlake.model.*;
 import com.finlake.models.FinanceRoomRequestData;
@@ -43,6 +44,7 @@ public class FinanceRoomController {
 
         FinanceRoom financeRoom = new FinanceRoom();
         financeRoom.setName(financeRoomBody.getName());
+        financeRoom.setStatus(GlobalEnum.STATUS_ACTIVE.getStringValue());
 
         Optional<User> roomUserCreator = userRepository.findById(financeRoomBody.getCreated_by());
 
@@ -82,22 +84,23 @@ public class FinanceRoomController {
     public List<FinanceRoom> filterUserFromFinanceRoom(
             @RequestParam(name = "page", required = false, defaultValue = "0") int page,
             @RequestParam(name = "pageSize", required = false, defaultValue = "10") int pageSize,
-            @RequestParam(name = "pagination", required = false, defaultValue = "true") boolean pagination,
+            @RequestParam(name = "pagination", required = false, defaultValue = "false") boolean pagination,
             @RequestParam(name = "status", required = false, defaultValue = "active") String status,
             @RequestParam(name = "id") String user_id
     ) {
-        List<RoomUser> roomUsers = roomUserRepository.findAllByUser_Id(user_id);
+        List<Sort.Order> sorting = new ArrayList<>();
+        sorting.add(new Sort.Order(Sort.Direction.ASC, "updated_at"));
+        Pageable pageable = PageRequest.of(page, pageSize, Sort.by(sorting));
+        List<RoomUser> roomUsers;
+        if (pagination) {
+            roomUsers = roomUserRepository.findAllByUser_IdAndStatusAndPaginate(user_id, status, pageable);
+        } else {
+            roomUsers = roomUserRepository.findAllByUser_IdAndStatus(user_id, status);
+        }
         List<String> financeRoomIds = new ArrayList<>();
         for (RoomUser roomUser : roomUsers) {
             financeRoomIds.add(roomUser.getFinance_room().getId());
         }
-        if (pagination) {
-            List<Sort.Order> sorting = new ArrayList<>();
-            sorting.add(new Sort.Order(Sort.Direction.ASC, "updated_at"));
-            Pageable pageable = PageRequest.of(page, pageSize, Sort.by(sorting));
-            return financeRoomRepository.findAllByIdAndStatusAndPagination(financeRoomIds, status, pageable);
-        }
-
         return financeRoomRepository.findAllByIdAndStatus(financeRoomIds, status);
     }
 
@@ -107,6 +110,7 @@ public class FinanceRoomController {
             Optional<User> user = userRepository.findById(userResponse.getId());
             user.ifPresent(roomUser::setUser);
             roomUser.setFinance_room(financeRoom);
+            roomUser.setStatus(GlobalEnum.STATUS_ACTIVE.getStringValue());
             roomUserRepository.save(roomUser);
         }
     }
