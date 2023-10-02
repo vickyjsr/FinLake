@@ -68,9 +68,19 @@ public class FinanceRoomController {
         return createFinanceRoom;
     }
 
-    @GetMapping("/listAllFinanceRooms")
-    List<FinanceRoom> getAllFinanceRooms(@RequestParam(required = false, defaultValue = "0") int page, @RequestParam(required = false, defaultValue = "10") int pageSize, @RequestParam(required = false, defaultValue = "true") boolean pagination, @RequestParam(required = false, defaultValue = "active") String status) {
+    @GetMapping("/get_finance_room_name")
+    String getFinanceRoomName(@RequestParam(name = "id") String id) {
+        Optional<FinanceRoom> financeRoom = financeRoomRepository.findById(id);
+        return financeRoom.map(FinanceRoom::getName).orElse("");
+    }
 
+    @GetMapping("/listAllFinanceRooms")
+    List<FinanceRoom> getAllFinanceRooms(
+            @RequestParam(name = "page", required = false, defaultValue = "0") int page,
+            @RequestParam(name = "pageSize", required = false, defaultValue = "10") int pageSize,
+            @RequestParam(name = "pagination", required = false, defaultValue = "true") boolean pagination,
+            @RequestParam(name = "status", required = false, defaultValue = "active") String status
+    ) {
         if (pagination) {
             List<Sort.Order> sorting = new ArrayList<>();
             sorting.add(new Sort.Order(Sort.Direction.ASC, "updated_at"));
@@ -84,10 +94,11 @@ public class FinanceRoomController {
     public List<FinanceRoom> filterUserFromFinanceRoom(
             @RequestParam(name = "page", required = false, defaultValue = "0") int page,
             @RequestParam(name = "pageSize", required = false, defaultValue = "10") int pageSize,
-            @RequestParam(name = "pagination", required = false, defaultValue = "false") boolean pagination,
+            @RequestParam(name = "pagination", required = false, defaultValue = "true") boolean pagination,
             @RequestParam(name = "status", required = false, defaultValue = "active") String status,
             @RequestParam(name = "id") String user_id
     ) {
+        System.out.println("Fetched" + page + " " + pageSize + " " + pagination + " " + status + " " + user_id);
         List<Sort.Order> sorting = new ArrayList<>();
         sorting.add(new Sort.Order(Sort.Direction.ASC, "updated_at"));
         Pageable pageable = PageRequest.of(page, pageSize, Sort.by(sorting));
