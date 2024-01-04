@@ -3,10 +3,7 @@ package com.finlake.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.finlake.enums.RoleType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -21,6 +18,9 @@ import java.util.List;
 @Entity
 @Builder
 @Data
+@Getter
+@Setter
+@ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User implements UserDetails {
 

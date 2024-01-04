@@ -1,37 +1,16 @@
 package com.finlake.model;
 
+import lombok.*;
+
 import java.util.List;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@ToString
 public class FinanceRoomRequestData {
     private FinanceRoomBody financeRoom;
     private List<UserResponse> userList;
-
-    public FinanceRoomRequestData(FinanceRoomBody financeRoom, List<UserResponse> userList) {
-        this.financeRoom = financeRoom;
-        this.userList = userList;
-    }
-
-    public FinanceRoomBody getFinanceRoom() {
-        return financeRoom;
-    }
-
-    public void setFinanceRoom(FinanceRoomBody financeRoom) {
-        this.financeRoom = financeRoom;
-    }
-
-    public List<UserResponse> getUserList() {
-        return userList;
-    }
-
-    public void setUserList(List<UserResponse> userList) {
-        this.userList = userList;
-    }
-
-    @Override
-    public String toString() {
-        return "FinanceRoomRequestData{" +
-                "financeRoom=" + financeRoom.toString() +
-                ", userList=" + userList.toString() +
-                '}';
-    }
 }
