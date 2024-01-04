@@ -19,7 +19,7 @@ public class TransactionSplitController {
     private TransactionSplitRepository transactionSplitRepository;
 
     @PostMapping("/newTransactionSplit")
-    public TransactionSplit saveFinanceRoom(@RequestBody TransactionSplit transactionSplit) {
+    public TransactionSplit saveTransactionSplits(@RequestBody TransactionSplit transactionSplit) {
         return transactionSplitRepository.save(transactionSplit);
     }
 

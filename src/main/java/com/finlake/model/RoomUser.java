@@ -1,6 +1,11 @@
 package com.finlake.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -8,6 +13,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.sql.Timestamp;
 
 @Entity
+@Builder
+@Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class RoomUser {
 
     @Id
@@ -39,16 +47,15 @@ public class RoomUser {
     private Timestamp updated_at;
 
     public RoomUser() {
-
     }
 
-    public RoomUser(String id, FinanceRoom finance_room, User user, Timestamp created_at, Timestamp updated_at, String status) {
+    public RoomUser(String id, FinanceRoom finance_room, User user, String status, Timestamp created_at, Timestamp updated_at) {
         this.id = id;
         this.finance_room = finance_room;
         this.user = user;
+        this.status = status;
         this.created_at = created_at;
         this.updated_at = updated_at;
-        this.status = status;
     }
 
     public String getId() {

@@ -1,7 +1,4 @@
-package com.finlake.models;
-
-import com.finlake.model.FinanceRoomBody;
-import com.finlake.model.UserResponse;
+package com.finlake.model;
 
 import java.util.List;
 

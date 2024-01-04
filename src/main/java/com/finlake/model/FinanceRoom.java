@@ -2,6 +2,10 @@ package com.finlake.model;
 
 import com.finlake.enums.RoomType;
 import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -9,6 +13,10 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.sql.Timestamp;
 
 @Entity
+@Builder
+@Data
+@Getter
+@Setter
 public class FinanceRoom {
 
     @Id
@@ -43,7 +51,7 @@ public class FinanceRoom {
 
     }
 
-    public FinanceRoom(String id, String name, User created_by, RoomType room_type, Timestamp created_at, Timestamp updated_at, String status) {
+    public FinanceRoom(String id, String name, User created_by, RoomType room_type, String status, Timestamp created_at, Timestamp updated_at) {
         this.id = id;
         this.name = name;
         this.created_by = created_by;
@@ -107,17 +115,5 @@ public class FinanceRoom {
 
     public void setUpdated_at(Timestamp updated_at) {
         this.updated_at = updated_at;
-    }
-
-    @Override
-    public String toString() {
-        return "FinanceRoom{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", created_by=" + created_by +
-                ", room_type=" + room_type +
-                ", created_at=" + created_at +
-                ", updated_at=" + updated_at +
-                '}';
     }
 }

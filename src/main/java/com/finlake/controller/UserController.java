@@ -19,13 +19,13 @@ public class UserController {
     private UserRepository userRepository;
 
     @GetMapping("/listAllUsers")
-    List<User> getUsers(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "15") int pageSize) {
+    public List<User> getUsers(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "15") int pageSize) {
         Pageable pageable = PageRequest.of(page, pageSize, Sort.by("name"));
         return userRepository.findAllUsers(pageable);
     }
 
     @GetMapping("/listAllUsersFiltered")
-    List<User> findAllUsersFiltered(@RequestParam(defaultValue = "0") int page, String id, @RequestParam(defaultValue = "15") int pageSize) {
+    public List<User> findAllUsersFiltered(@RequestParam(defaultValue = "0") int page, String id, @RequestParam(defaultValue = "15") int pageSize) {
         Pageable pageable = PageRequest.of(page, pageSize, Sort.by("name"));
         return userRepository.findAllUsersFiltered(id, pageable);
     }

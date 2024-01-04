@@ -4,7 +4,6 @@ import com.finlake.JsonPayloadConverter;
 import com.finlake.enums.GlobalEnum;
 import com.finlake.enums.RoomType;
 import com.finlake.model.*;
-import com.finlake.models.FinanceRoomRequestData;
 import com.finlake.repository.FinanceRoomRepository;
 import com.finlake.repository.RoomUserRepository;
 import com.finlake.repository.UserRepository;
@@ -70,8 +69,12 @@ public class FinanceRoomController {
 
     @GetMapping("/get_finance_room_name")
     String getFinanceRoomName(@RequestParam(name = "id") String id) {
-        Optional<FinanceRoom> financeRoom = financeRoomRepository.findById(id);
-        return financeRoom.map(FinanceRoom::getName).orElse("");
+        Optional<FinanceRoom> financeRoomOptional = financeRoomRepository.findById(id);
+        if (financeRoomOptional.isPresent()) {
+            return financeRoomOptional.get().getName();
+        } else {
+            return "";
+        }
     }
 
     @GetMapping("/listAllFinanceRooms")

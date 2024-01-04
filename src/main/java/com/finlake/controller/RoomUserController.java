@@ -18,7 +18,7 @@ import java.util.List;
 public class RoomUserController {
 
     @Autowired
-    private RoomUserRepository roomUserRepository;
+    RoomUserRepository roomUserRepository;
 
     @PostMapping("/newRoomUser")
     public RoomUser saveRoomUser(@RequestBody RoomUser roomUser) {
@@ -26,7 +26,7 @@ public class RoomUserController {
     }
 
     @GetMapping("/listAllRoomUsers")
-    List<RoomUser> getRoomUsers() {
+    public List<RoomUser> getRoomUsers() {
         return roomUserRepository.findAll();
     }
 
@@ -42,7 +42,7 @@ public class RoomUserController {
             @RequestParam(name = "pageSize", required = false, defaultValue = "10") int pageSize,
             @RequestParam(name = "pagination", required = false, defaultValue = "true") boolean pagination,
             @RequestParam(name = "status", required = false, defaultValue = "active") String status,
-            @RequestParam("id") String id
+            @RequestParam(name = "id") String id
     ) {
         if (!pagination) {
             return roomUserRepository.findAllByFinanceRoom_Id(id, status);

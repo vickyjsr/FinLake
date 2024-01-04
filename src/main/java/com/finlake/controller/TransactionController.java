@@ -16,14 +16,12 @@ public class TransactionController {
     private TransactionRepository transactionRepository;
 
     @PostMapping("/newTransaction")
-    public Transaction saveFinanceRoom(@RequestBody Transaction transaction) {
+    public Transaction saveTransaction(@RequestBody Transaction transaction) {
         return transactionRepository.save(transaction);
     }
 
     @GetMapping("/listTransactions")
-    List<Transaction> getUsers() {
+    List<Transaction> getTransactions() {
         return transactionRepository.findAll();
     }
-
-
 }
