@@ -40,8 +40,8 @@ public class AuthenticationControllerTest {
     public void setUp() {
         MockitoAnnotations.openMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(authenticationController).build();
-        registerRequest = new RegisterRequest("Gourav", "gouravmodi10@gmail.com", "123456", "8529452679");
-        authenticationRequest = new AuthenticationRequest("gouravmodi10@gmail.com", "123456");
+        registerRequest = new RegisterRequest("122", "Gourav", "gouravmodi10@gmail.com", "123456", "8529452679");
+        authenticationRequest = new AuthenticationRequest("112", "gouravmodi10@gmail.com", "123456");
     }
 
     @Test
@@ -56,12 +56,12 @@ public class AuthenticationControllerTest {
 
     // Add similar tests for other methods, for example, authenticate_success()
 
-     @Test
-     public void authenticate_success() throws Exception {
-         mockMvc.perform(MockMvcRequestBuilders.post("/v1/login")
-                 .contentType(MediaType.APPLICATION_JSON)
-                 .accept(MediaType.APPLICATION_JSON)
-                 .content(objectMapper.writeValueAsString(authenticationRequest)))
-                 .andExpect(status().isOk());
-     }
+    @Test
+    public void authenticate_success() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/v1/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(authenticationRequest)))
+                .andExpect(status().isOk());
+    }
 }

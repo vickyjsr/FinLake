@@ -1,6 +1,5 @@
 package com.finlake.auth;
 
-import com.finlake.enums.RoleType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RegisterRequest {
 
+    private String requestId;
     private String name;
     private String email;
     private String password;

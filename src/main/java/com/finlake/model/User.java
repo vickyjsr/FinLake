@@ -21,7 +21,6 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class User implements UserDetails {
 
     @Id
