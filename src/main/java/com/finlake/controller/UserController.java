@@ -1,32 +1,52 @@
 package com.finlake.controller;
 
-import com.finlake.model.User;
-import com.finlake.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
+import com.finlake.common.enums.ResponseCode;
+import com.finlake.model.response.FinlakeResponse;
+import com.finlake.model.response.UserResponse;
+import com.finlake.service.BaseResponseService;
+import com.finlake.service.UserServiceImpl;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
-@CrossOrigin("/v1")
-@RequestMapping("/v1")
-public class UserController {
+@Tag(name = "2. User Controller")
+public class UserController implements UserControllerApi {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserServiceImpl userService;
+    private final BaseResponseService baseResponseService;
 
-    @GetMapping("/listAllUsers")
-    public List<User> getUsers(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "15") int pageSize) {
-        Pageable pageable = PageRequest.of(page, pageSize, Sort.by("name"));
-        return userRepository.findAllUsers(pageable);
+    public UserController(UserServiceImpl userService, BaseResponseService baseResponseService) {
+        this.userService = userService;
+        this.baseResponseService = baseResponseService;
     }
 
-    @GetMapping("/listAllUsersFiltered")
-    public List<User> findAllUsersFiltered(@RequestParam(defaultValue = "0") int page, String id, @RequestParam(defaultValue = "15") int pageSize) {
-        Pageable pageable = PageRequest.of(page, pageSize, Sort.by("name"));
-        return userRepository.findAllUsersFiltered(id, pageable);
+    @Override
+    public ResponseEntity<FinlakeResponse<UserResponse>> getUser(String requestId, Pageable pageable, String id) {
+//        todo do it later procrastinating a lot
+        return new ResponseEntity<FinlakeResponse<UserResponse>>(HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<FinlakeResponse<Page<UserResponse>>> getUsers(String requestId, Pageable pageable) {
+        Page<UserResponse> userResponses = userService.getAllUsers(pageable, requestId);
+        return baseResponseService.ok(userResponses, requestId, ResponseCode.ALL_USER_FETCHED.getCode());
+    }
+
+    @Override
+    public ResponseEntity<FinlakeResponse<Page<UserResponse>>> findAllUsersFiltered(String requestId, List<String> userIds, Pageable pageable) {
+        Page<UserResponse> userResponses = userService.getAllUsersExceptSome(userIds, requestId, pageable);
+        return baseResponseService.ok(userResponses, requestId, ResponseCode.ALL_USER_FETCHED.getCode());
+    }
+
+    @Override
+    public ResponseEntity<FinlakeResponse<Page<UserResponse>>> findAllUsersWithMobileNumber(String requestId, List<String> mobileNumbers, Pageable pageable) {
+        Page<UserResponse> userResponses = userService.getAllUsersWithMobileNumber(mobileNumbers, requestId, pageable);
+        return baseResponseService.ok(userResponses, requestId, ResponseCode.ALL_USER_FETCHED.getCode());
     }
 }

@@ -3,7 +3,7 @@ package com.finlake.controller;
 import com.finlake.model.RoomUser;
 import com.finlake.model.User;
 import com.finlake.repository.RoomUserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -15,10 +15,14 @@ import java.util.List;
 @RestController
 @CrossOrigin("/v1")
 @RequestMapping("/v1")
+@Tag(name = "4. Room User Controller")
 public class RoomUserController {
 
-    @Autowired
-    RoomUserRepository roomUserRepository;
+    private final RoomUserRepository roomUserRepository;
+
+    public RoomUserController(RoomUserRepository roomUserRepository) {
+        this.roomUserRepository = roomUserRepository;
+    }
 
     @PostMapping("/newRoomUser")
     public RoomUser saveRoomUser(@RequestBody RoomUser roomUser) {

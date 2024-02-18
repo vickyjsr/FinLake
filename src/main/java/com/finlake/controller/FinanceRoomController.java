@@ -1,13 +1,14 @@
 package com.finlake.controller;
 
-import com.finlake.JsonPayloadConverter;
-import com.finlake.enums.GlobalEnum;
-import com.finlake.enums.RoomType;
+import com.finlake.common.helper.JsonPayloadConverter;
+import com.finlake.common.enums.GlobalEnum;
+import com.finlake.common.enums.RoomType;
 import com.finlake.model.*;
+import com.finlake.model.response.UserResponse;
 import com.finlake.repository.FinanceRoomRepository;
 import com.finlake.repository.RoomUserRepository;
 import com.finlake.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -20,15 +21,20 @@ import java.util.Optional;
 @RestController
 @CrossOrigin("/v1")
 @RequestMapping("/v1")
+@Tag(name = "3. Finance Room Controller")
 public class FinanceRoomController {
 
-    @Autowired
-    private FinanceRoomRepository financeRoomRepository;
+    private final FinanceRoomRepository financeRoomRepository;
 
-    @Autowired
-    private RoomUserRepository roomUserRepository;
-    @Autowired
-    private UserRepository userRepository;
+    private final RoomUserRepository roomUserRepository;
+
+    private final UserRepository userRepository;
+
+    public FinanceRoomController(FinanceRoomRepository financeRoomRepository, RoomUserRepository roomUserRepository, UserRepository userRepository) {
+        this.financeRoomRepository = financeRoomRepository;
+        this.roomUserRepository = roomUserRepository;
+        this.userRepository = userRepository;
+    }
 
     @PostMapping("/newFinanceRoom")
     public FinanceRoom saveFinanceRoom(@RequestBody String financeRoomRequestData) {
@@ -61,7 +67,7 @@ public class FinanceRoomController {
 
         FinanceRoom createFinanceRoom = financeRoomRepository.save(financeRoom);
         User user = roomUserCreator.get();
-        UserResponse userCreatorResponse = new UserResponse(user.getId(), user.getName(), user.getEmail(), user.getPassword(), user.getMobileNumber(), user.getRoleType().getStringValue(), user.getCreated_at().toString(), user.getUpdated_at().toString());
+        UserResponse userCreatorResponse = new UserResponse(user.getId(), user.getName(), user.getEmail(), user.getMobileNumber(), user.getCreatedAt(), user.getUpdatedAt());
         userResponses.add(userCreatorResponse);
         createFinanceRoomWithUser(createFinanceRoom, userResponses);
         return createFinanceRoom;

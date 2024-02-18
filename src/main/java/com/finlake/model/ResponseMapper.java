@@ -1,6 +1,6 @@
 package com.finlake.model;
 
-import com.finlake.enums.ResponseCode;
+import com.finlake.common.enums.ResponseCode;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;

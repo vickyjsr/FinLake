@@ -1,6 +1,6 @@
 package com.finlake.model;
 
-import com.finlake.enums.RoomType;
+import com.finlake.common.enums.RoomType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;

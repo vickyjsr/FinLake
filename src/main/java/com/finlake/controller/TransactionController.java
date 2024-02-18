@@ -2,7 +2,7 @@ package com.finlake.controller;
 
 import com.finlake.model.Transaction;
 import com.finlake.repository.TransactionRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,10 +10,14 @@ import java.util.List;
 @RestController
 @CrossOrigin("/v1")
 @RequestMapping("/v1")
+@Tag(name = "5. Transaction Controller")
 public class TransactionController {
 
-    @Autowired
-    private TransactionRepository transactionRepository;
+    private final TransactionRepository transactionRepository;
+
+    public TransactionController(TransactionRepository transactionRepository) {
+        this.transactionRepository = transactionRepository;
+    }
 
     @PostMapping("/newTransaction")
     public Transaction saveTransaction(@RequestBody Transaction transaction) {

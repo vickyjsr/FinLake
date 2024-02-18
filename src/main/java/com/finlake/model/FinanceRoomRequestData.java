@@ -1,5 +1,6 @@
 package com.finlake.model;
 
+import com.finlake.model.response.UserResponse;
 import lombok.*;
 
 import java.util.List;

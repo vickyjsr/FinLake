@@ -1,7 +1,6 @@
 package com.finlake.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.finlake.enums.RoleType;
+import com.finlake.common.enums.RoleType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -45,12 +44,12 @@ public class User implements UserDetails {
     @GeneratedValue
     @Column(name = "created_at", columnDefinition = "TIMESTAMP")
     @CreationTimestamp
-    private Timestamp created_at;
+    private Timestamp createdAt;
 
     @GeneratedValue
     @Column(name = "updated_at", columnDefinition = "timestamp")
     @UpdateTimestamp
-    private Timestamp updated_at;
+    private Timestamp updatedAt;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -62,15 +61,15 @@ public class User implements UserDetails {
 
     }
 
-    public User(String id, String name, String email, String password, String mobileNumber, RoleType roleType, Timestamp created_at, Timestamp updated_at) {
+    public User(String id, String name, String email, String password, String mobileNumber, RoleType roleType, Timestamp createdAt, Timestamp updatedAt) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
         this.mobileNumber = mobileNumber;
         this.roleType = roleType;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     @Override
@@ -126,20 +125,20 @@ public class User implements UserDetails {
         this.roleType = roleType;
     }
 
-    public Timestamp getCreated_at() {
-        return created_at;
+    public Timestamp getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreated_at(Timestamp created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(Timestamp updatedAt) {
+        this.createdAt = updatedAt;
     }
 
-    public Timestamp getUpdated_at() {
-        return updated_at;
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setUpdated_at(Timestamp updated_at) {
-        this.updated_at = updated_at;
+    public void setUpdatedAt(Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     @Override
