@@ -18,7 +18,7 @@ public class BaseExceptionResponse {
         this.responseMapperCache = responseMapperCache;
     }
 
-    public ResponseEntity<FinlakeResponse<?>> getErrorResponse(String requestId, String errorCode, String errorMessage) {
+    public ResponseEntity<Object> getErrorResponse(String requestId, String errorCode, String errorMessage) {
         ResponseMapper responseMapper = responseMapperCache.lookUpByResponseCode(errorCode);
         log.info("Response {} received for request id {}", errorCode, requestId);
         FinlakeResponse<?> body = getBody(requestId, errorMessage, responseMapper);

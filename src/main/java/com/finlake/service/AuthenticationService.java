@@ -5,9 +5,10 @@ import com.finlake.common.enums.ResponseCode;
 import com.finlake.common.enums.RoleType;
 import com.finlake.common.exception.UserAlreadyExistsForEmailException;
 import com.finlake.common.exception.UserDoesNotExistsForEmailException;
+import com.finlake.common.helper.RequestValidator;
+import com.finlake.model.User;
 import com.finlake.model.request.AuthenticationRequestDto;
 import com.finlake.model.request.RegisterRequestDto;
-import com.finlake.model.User;
 import com.finlake.model.response.AuthenticationResponse;
 import com.finlake.model.response.FinlakeResponse;
 import com.finlake.repository.UserRepository;
@@ -36,6 +37,7 @@ public class AuthenticationService {
     }
 
     public ResponseEntity<FinlakeResponse<AuthenticationResponse>> register(RegisterRequestDto request) {
+        RequestValidator.validateRequest(request, request.getRequestId());
         User checkPresenceOfUser = userRepository.findByEmail(request.getEmail());
         if (checkPresenceOfUser != null) {
             throw new UserAlreadyExistsForEmailException(request.getRequestId(), ResponseCode.USER_ALREADY_EXISTS);
@@ -60,6 +62,7 @@ public class AuthenticationService {
     }
 
     public ResponseEntity<FinlakeResponse<AuthenticationResponse>> authenticate(AuthenticationRequestDto request) {
+        RequestValidator.validateRequest(request, request.getRequestId());
         User checkPresenceOfUser = userRepository.findByEmail(request.getEmail());
         if (checkPresenceOfUser == null) {
             throw new UserDoesNotExistsForEmailException(request.getRequestId(), ResponseCode.USER_DOES_NOT_EXIST.getCode());

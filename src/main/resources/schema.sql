@@ -1,5 +1,5 @@
 use finlake;
-create TABLE `user` (
+create TABLE IF NOT EXISTS `user` (
   `id` varchar(36) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
@@ -11,7 +11,7 @@ create TABLE `user` (
   PRIMARY KEY (`id`)
 );
 
-create TABLE `finance_room` (
+create TABLE IF NOT EXISTS `finance_room` (
   `id` varchar(36) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
@@ -24,7 +24,7 @@ create TABLE `finance_room` (
   CONSTRAINT `FK_finance_rooms_users` FOREIGN KEY (`created_by`) REFERENCES `user` (`id`)
 );
 
-create TABLE `room_user` (
+create TABLE IF NOT EXISTS `room_user` (
   `id` varchar(36) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -38,7 +38,7 @@ create TABLE `room_user` (
   CONSTRAINT `FK_room_users_users` FOREIGN KEY (`user`) REFERENCES `user` (`id`)
 );
 
-create TABLE `transaction` (
+create TABLE IF NOT EXISTS `transaction` (
   `id` varchar(36) NOT NULL,
   `amount` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -55,7 +55,7 @@ create TABLE `transaction` (
   CONSTRAINT `FK_transactions_users` FOREIGN KEY (`paid_by_user`) REFERENCES `user` (`id`)
 );
 
-create TABLE `transaction_split` (
+create TABLE IF NOT EXISTS `transaction_split` (
   `id` varchar(36) NOT NULL,
   `amount` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -70,7 +70,7 @@ create TABLE `transaction_split` (
   CONSTRAINT `FK_transaction_splits_users` FOREIGN KEY (`user`) REFERENCES `user` (`id`)
 );
 
-create TABLE `response_mapper` (
+create TABLE IF NOT EXISTS `response_mapper` (
 	`id` bigint NOT NULL auto_increment,
     `response_code` varchar(20) NOT NULL,
     `http_status_code` varchar(20) NOT NULL,
@@ -87,6 +87,8 @@ insert into `response_mapper` (`response_code`, `http_status_code`, `response_co
 insert into `response_mapper` (`response_code`, `http_status_code`, `response_constant`, `response_message`) values ('1001', '400', 'Bad Request', 'Request is not valid.');
 insert into `response_mapper` (`response_code`, `http_status_code`, `response_constant`, `response_message`) values ('1004', '401', 'Unauthorized', 'Authorization failed due to various reasons.');
 insert into `response_mapper` (`response_code`, `http_status_code`, `response_constant`, `response_message`) values ('1005', '500', 'Data Access Error', 'Not able to access the database.');
+insert into `response_mapper` (`response_code`, `http_status_code`, `response_constant`, `response_message`) values ('1006', '500', 'Data Converion Error', 'Not able to convert the data.');
 
+insert into `response_mapper` (`response_code`, `http_status_code`, `response_constant`, `response_message`) values ('2002', '200', 'All Users Fetched', 'All User profile fetched.');
 insert into `response_mapper` (`response_code`, `http_status_code`, `response_constant`, `response_message`) values ('2003', '200', 'User already exists', 'User profile already exists for this email.');
 insert into `response_mapper` (`response_code`, `http_status_code`, `response_constant`, `response_message`) values ('2004', '200', 'User does not exists', 'User profile does not exists for this email.');
