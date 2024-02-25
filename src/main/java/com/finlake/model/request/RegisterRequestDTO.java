@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterRequestDto {
+public class RegisterRequestDTO {
 
     @NotNull(message = "RequestId can not be null")
     @NotBlank(message = "RequestId can not be blank")

@@ -1,9 +1,9 @@
 package com.finlake.controller;
 
-import com.finlake.model.request.AuthenticationRequestDto;
+import com.finlake.model.request.AuthenticationRequestDTO;
 import com.finlake.model.response.AuthenticationResponse;
 import com.finlake.service.AuthenticationService;
-import com.finlake.model.request.RegisterRequestDto;
+import com.finlake.model.request.RegisterRequestDTO;
 import com.finlake.model.response.FinlakeResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
@@ -22,12 +22,12 @@ public class AuthenticationController implements AuthenticationControllerApi {
     }
 
     @Override
-    public ResponseEntity<FinlakeResponse<AuthenticationResponse>> register(RegisterRequestDto request) {
+    public ResponseEntity<FinlakeResponse<AuthenticationResponse>> register(RegisterRequestDTO request) {
         return authenticationService.register(request);
     }
 
     @Override
-    public ResponseEntity<FinlakeResponse<AuthenticationResponse>> authenticate(AuthenticationRequestDto request) {
+    public ResponseEntity<FinlakeResponse<AuthenticationResponse>> authenticate(AuthenticationRequestDTO request) {
         return authenticationService.authenticate(request);
     }
 }

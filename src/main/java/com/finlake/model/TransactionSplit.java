@@ -24,29 +24,32 @@ public class TransactionSplit {
     @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
-    @ManyToOne
-    @JoinColumn(name = "transaction", referencedColumnName = "id",
-            foreignKey = @ForeignKey(name = "FK_transaction_splits_transactions"))
-    private Transaction transaction;
+    @Column(name = "request_id")
+    private String requestId;
 
-    @ManyToOne
-    @JoinColumn(name = "user", referencedColumnName = "id",
-            foreignKey = @ForeignKey(name = "FK_transaction_splits_users"))
-    private User user;
+    @Column(name = "transaction_id")
+    private String transactionId;
 
-//    todo should i store a paid_by too??
+    @Column(name = "user_id")
+    private String userId;
 
+    //    todo should i store a paid_by too??
+    @Column(name = "paid_by_user")
+    private String paidByUser;
+
+    @Column(name = "amount")
     private String amount;
 
+    @Column(name = "status")
     private String status;
 
     @GeneratedValue
-    @Column(name = "created_at", columnDefinition = "TIMESTAMP")
+    @Column(name = "created_at", columnDefinition = "TIMESTAMP", updatable = false)
     @CreationTimestamp
-    private Timestamp created_at;
+    private Timestamp createdAt;
 
     @GeneratedValue
     @Column(name = "updated_at", columnDefinition = "timestamp")
     @UpdateTimestamp
-    private Timestamp updated_at;
+    private Timestamp updatedAt;
 }

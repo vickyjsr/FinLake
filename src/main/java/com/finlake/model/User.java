@@ -28,6 +28,9 @@ public class User implements UserDetails {
     @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
+    @Column(name = "request_id")
+    String requestId;
+
     private String name;
 
     private String email;

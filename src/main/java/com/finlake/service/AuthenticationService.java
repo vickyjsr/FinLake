@@ -7,8 +7,8 @@ import com.finlake.common.exception.UserAlreadyExistsForEmailException;
 import com.finlake.common.exception.UserDoesNotExistsForEmailException;
 import com.finlake.common.helper.RequestValidator;
 import com.finlake.model.User;
-import com.finlake.model.request.AuthenticationRequestDto;
-import com.finlake.model.request.RegisterRequestDto;
+import com.finlake.model.request.AuthenticationRequestDTO;
+import com.finlake.model.request.RegisterRequestDTO;
 import com.finlake.model.response.AuthenticationResponse;
 import com.finlake.model.response.FinlakeResponse;
 import com.finlake.repository.UserRepository;
@@ -36,7 +36,7 @@ public class AuthenticationService {
         this.jwtService = jwtService;
     }
 
-    public ResponseEntity<FinlakeResponse<AuthenticationResponse>> register(RegisterRequestDto request) {
+    public ResponseEntity<FinlakeResponse<AuthenticationResponse>> register(RegisterRequestDTO request) {
         RequestValidator.validateRequest(request, request.getRequestId());
         User checkPresenceOfUser = userRepository.findByEmail(request.getEmail());
         if (checkPresenceOfUser != null) {
@@ -48,6 +48,7 @@ public class AuthenticationService {
                 .mobileNumber(request.getMobileNumber())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .roleType(RoleType.USER)
+                .requestId(request.getRequestId())
                 .build();
         String jwtToken = jwtService.generateToken(user);
         userRepository.save(user);
@@ -56,12 +57,13 @@ public class AuthenticationService {
                 .token(jwtToken)
                 .requestId(request.getRequestId())
                 .userId(user.getId())
+                .requestId(request.getRequestId())
                 .responseCode(ResponseCode.USER_REGISTERED.getCode())
                 .build();
         return baseResponseService.ok(authenticationResponse, authenticationResponse.getRequestId(), authenticationResponse.getResponseCode());
     }
 
-    public ResponseEntity<FinlakeResponse<AuthenticationResponse>> authenticate(AuthenticationRequestDto request) {
+    public ResponseEntity<FinlakeResponse<AuthenticationResponse>> authenticate(AuthenticationRequestDTO request) {
         RequestValidator.validateRequest(request, request.getRequestId());
         User checkPresenceOfUser = userRepository.findByEmail(request.getEmail());
         if (checkPresenceOfUser == null) {
@@ -75,6 +77,7 @@ public class AuthenticationService {
                 .token(jwtToken)
                 .requestId(request.getRequestId())
                 .userId(user.getId())
+                .requestId(request.getRequestId())
                 .responseCode(ResponseCode.USER_AUTHORIZED.getCode())
                 .build();
         return baseResponseService.ok(authenticationResponse, request.getRequestId(), authenticationResponse.getResponseCode());

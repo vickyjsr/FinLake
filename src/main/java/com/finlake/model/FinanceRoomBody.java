@@ -11,7 +11,7 @@ import lombok.*;
 public class FinanceRoomBody {
     private String name;
 
-    private String created_by;
+    private String createdBy;
 
-    private String room_type;
+    private String roomType;
 }

@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationRequestDto {
+public class AuthenticationRequestDTO {
 
     @NotNull(message = "RequestId can not be null")
     @NotBlank(message = "RequestId can not be blank")

@@ -26,25 +26,24 @@ public class RoomUser {
     @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
-    @ManyToOne
-    @JoinColumn(name = "finance_room", referencedColumnName = "id",
-            foreignKey = @ForeignKey(name = "FK_room_users_finance_rooms"))
-    private FinanceRoom finance_room;
+    @Column(name = "request_id")
+    private String requestId;
 
-    @ManyToOne
-    @JoinColumn(name = "user", referencedColumnName = "id",
-            foreignKey = @ForeignKey(name = "FK_room_users_users"))
-    private User user;
+    @Column(name = "finance_room_id")
+    private String financeRoomId;
+
+    @Column(name = "user_id")
+    private String userId;
 
     private String status;
 
     @GeneratedValue
-    @Column(name = "created_at", columnDefinition = "TIMESTAMP")
+    @Column(name = "created_at", columnDefinition = "TIMESTAMP", updatable = false)
     @CreationTimestamp
-    private Timestamp created_at;
+    private Timestamp createdAt;
 
     @GeneratedValue
     @Column(name = "updated_at", columnDefinition = "timestamp")
     @UpdateTimestamp
-    private Timestamp updated_at;
+    private Timestamp updatedAt;
 }

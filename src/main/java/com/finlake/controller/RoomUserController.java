@@ -1,60 +1,55 @@
 package com.finlake.controller;
 
+import com.finlake.common.enums.ResponseCode;
 import com.finlake.model.RoomUser;
 import com.finlake.model.User;
-import com.finlake.repository.RoomUserRepository;
+import com.finlake.model.request.RoomUserDTO;
+import com.finlake.model.response.FinlakeResponse;
+import com.finlake.service.BaseResponseService;
+import com.finlake.service.RoomUserServiceImpl;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin("/v1")
-@RequestMapping("/v1")
+@RequestMapping("/v1/roomUser")
 @Tag(name = "4. Room User Controller")
-public class RoomUserController {
+public class RoomUserController implements RoomUserControllerApi {
 
-    private final RoomUserRepository roomUserRepository;
+    private final RoomUserServiceImpl roomUserService;
+    private final BaseResponseService baseResponseService;
 
-    public RoomUserController(RoomUserRepository roomUserRepository) {
-        this.roomUserRepository = roomUserRepository;
+    public RoomUserController(RoomUserServiceImpl roomUserService, BaseResponseService baseResponseService) {
+        this.roomUserService = roomUserService;
+        this.baseResponseService = baseResponseService;
     }
 
-    @PostMapping("/newRoomUser")
-    public RoomUser saveRoomUser(@RequestBody RoomUser roomUser) {
-        return roomUserRepository.save(roomUser);
+    @Override
+    public ResponseEntity<FinlakeResponse<RoomUser>> saveRoomUser(RoomUserDTO roomUserDTO) {
+        RoomUser roomUser = roomUserService.saveRoomUser(roomUserDTO);
+        return baseResponseService.ok(roomUser, roomUserDTO.getRequestId(), ResponseCode.ROOM_USER_CREATED.getCode());
     }
 
-    @GetMapping("/listAllRoomUsers")
-    public List<RoomUser> getRoomUsers() {
-        return roomUserRepository.findAll();
+    @Override
+    public ResponseEntity<FinlakeResponse<Page<RoomUser>>> getRoomUsers(String requestId, Pageable pageable) {
+        Page<RoomUser> roomUsers = roomUserService.getRoomUsers(requestId, pageable);
+        return baseResponseService.ok(roomUsers, requestId, ResponseCode.ROOM_USER_FETCHED.getCode());
     }
 
-    @GetMapping("/filterUserFromRoomUser")
-    public List<RoomUser> filterUserFromRoomUser(@RequestParam("id") String id) {
-        System.out.println(id + " " + roomUserRepository.findAllByUser_Id(id).toString());
-        return roomUserRepository.findAllByUser_Id(id);
+    @Override
+    public ResponseEntity<FinlakeResponse<Page<RoomUser>>> filterUserFromRoomUser(String requestId, Pageable pageable, String userId, String status) {
+        Page<RoomUser> roomUsers = roomUserService.filterUserFromRoomUser(requestId, pageable, userId, status);
+        return baseResponseService.ok(roomUsers, requestId, ResponseCode.ROOM_USER_FETCHED.getCode());
     }
 
-    @GetMapping("/filterFinanceRoomFromRoomUser")
-    public List<User> filterFinanceRoomFromRoomUser(
-            @RequestParam(name = "page", required = false, defaultValue = "0") int page,
-            @RequestParam(name = "pageSize", required = false, defaultValue = "10") int pageSize,
-            @RequestParam(name = "pagination", required = false, defaultValue = "true") boolean pagination,
-            @RequestParam(name = "status", required = false, defaultValue = "active") String status,
-            @RequestParam(name = "id") String id
-    ) {
-        if (!pagination) {
-            return roomUserRepository.findAllByFinanceRoom_Id(id, status);
-        }
-        List<Sort.Order> sorting = new ArrayList<>();
-        sorting.add(new Sort.Order(Sort.Direction.ASC, "user.name"));
-        Pageable pageable = PageRequest.of(page, pageSize, Sort.by(sorting));
-
-        return roomUserRepository.findAllByFinanceRoom_IdAndPaginate(id, status, pageable);
+    @Override
+    public ResponseEntity<FinlakeResponse<Page<User>>> filterFinanceRoomFromRoomUser(String requestId, Pageable pageable, String status, String financeRoomId) {
+        Page<User> users = roomUserService.filterFinanceRoomFromRoomUser(requestId, pageable, status, financeRoomId);
+        return baseResponseService.ok(users, requestId, ResponseCode.ROOM_USER_FETCHED.getCode());
     }
 }

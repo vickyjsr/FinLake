@@ -24,26 +24,34 @@ public class Transaction {
     @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
-    private String name, description, amount, status;
+    @Column(name = "request_id")
+    private String requestId;
 
-    @ManyToOne
-    @JoinColumn(name = "paid_by_user", referencedColumnName = "id",
-            foreignKey = @ForeignKey(name = "FK_transactions_users"))
-    private User paid_by_user;
+    @Column(name = "name")
+    private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "finance_room", referencedColumnName = "id",
-            foreignKey = @ForeignKey(name = "FK_transactions_finance_rooms"))
-    private FinanceRoom finance_room;
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "amount")
+    private String amount;
+
+    @Column(name = "status")
+    private String status;
+
+    @Column(name = "paid_by_user")
+    private String paidByUser;
+
+    @Column(name = "finance_room_id")
+    private String financeRoomId;
 
     @GeneratedValue
-    @Column(name = "created_at", columnDefinition = "TIMESTAMP")
+    @Column(name = "created_at", columnDefinition = "TIMESTAMP", updatable = false)
     @CreationTimestamp
-    private Timestamp created_at;
+    private Timestamp createdAt;
 
     @GeneratedValue
     @Column(name = "updated_at", columnDefinition = "timestamp")
     @UpdateTimestamp
-    private Timestamp updated_at;
-
+    private Timestamp updatedAt;
 }

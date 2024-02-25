@@ -4,10 +4,18 @@ public enum RoomType {
     ONE_ON_ONE("one_on_one"),
     GROUP("group");
 
-    private String value;
+    private final String value;
 
     RoomType(String value) {
         this.value = value;
+    }
+
+    public static RoomType getType(String roomType) {
+        if (roomType == "one_on_one") {
+            return ONE_ON_ONE;
+        } else {
+            return GROUP;
+        }
     }
 
     public String getValue() {

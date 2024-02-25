@@ -1,6 +1,7 @@
 use finlake;
 create TABLE IF NOT EXISTS `user` (
   `id` varchar(36) NOT NULL,
+  `request_id` varchar(50) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `mobile_number` varchar(36) DEFAULT NULL,
@@ -13,8 +14,9 @@ create TABLE IF NOT EXISTS `user` (
 
 create TABLE IF NOT EXISTS `finance_room` (
   `id` varchar(36) NOT NULL,
+  `request_id` varchar(50) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
+  `finance_room_name` varchar(255) DEFAULT NULL,
   `room_type` varchar(255) DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `created_by` varchar(36) DEFAULT NULL,
@@ -26,6 +28,7 @@ create TABLE IF NOT EXISTS `finance_room` (
 
 create TABLE IF NOT EXISTS `room_user` (
   `id` varchar(36) NOT NULL,
+  `request_id` varchar(50) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `finance_room` varchar(36) DEFAULT NULL,
@@ -40,6 +43,7 @@ create TABLE IF NOT EXISTS `room_user` (
 
 create TABLE IF NOT EXISTS `transaction` (
   `id` varchar(36) NOT NULL,
+  `request_id` varchar(50) NOT NULL,
   `amount` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
@@ -57,6 +61,7 @@ create TABLE IF NOT EXISTS `transaction` (
 
 create TABLE IF NOT EXISTS `transaction_split` (
   `id` varchar(36) NOT NULL,
+  `request_id` varchar(50) NOT NULL,
   `amount` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -72,6 +77,7 @@ create TABLE IF NOT EXISTS `transaction_split` (
 
 create TABLE IF NOT EXISTS `response_mapper` (
 	`id` bigint NOT NULL auto_increment,
+	`request_id` varchar(50) NOT NULL,
     `response_code` varchar(20) NOT NULL,
     `http_status_code` varchar(20) NOT NULL,
     `response_constant` varchar(100) NOT NULL,
@@ -92,3 +98,8 @@ insert into `response_mapper` (`response_code`, `http_status_code`, `response_co
 insert into `response_mapper` (`response_code`, `http_status_code`, `response_constant`, `response_message`) values ('2002', '200', 'All Users Fetched', 'All User profile fetched.');
 insert into `response_mapper` (`response_code`, `http_status_code`, `response_constant`, `response_message`) values ('2003', '200', 'User already exists', 'User profile already exists for this email.');
 insert into `response_mapper` (`response_code`, `http_status_code`, `response_constant`, `response_message`) values ('2004', '200', 'User does not exists', 'User profile does not exists for this email.');
+
+insert into `response_mapper` (`response_code`, `http_status_code`, `response_constant`, `response_message`) values ('2005', '200', 'Finance Room Created', 'A new finance room created.');
+
+insert into `response_mapper` (`response_code`, `http_status_code`, `response_constant`, `response_message`) values ('2006', '200', 'Room User Created', 'A new user has added to the room.');
+insert into `response_mapper` (`response_code`, `http_status_code`, `response_constant`, `response_message`) values ('2007', '200', 'Room Users fetched', 'Room users fetched.');

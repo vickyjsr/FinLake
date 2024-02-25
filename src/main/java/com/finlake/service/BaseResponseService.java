@@ -1,5 +1,6 @@
 package com.finlake.service;
 
+import com.finlake.common.enums.ResponseCode;
 import com.finlake.model.response.FinlakeResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

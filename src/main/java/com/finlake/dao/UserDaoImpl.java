@@ -9,6 +9,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    @Transactional
     public User findByEmail(String email) {
         try {
             return userRepository.findByEmail(email);
@@ -36,6 +38,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    @Transactional
     public Page<User> findAllUsers(Pageable pageable, String requestId) {
         try {
             return userRepository.findAll(pageable);
@@ -49,6 +52,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    @Transactional
     public Page<User> findAllUsersWithMobileNumber(List<String> mobileNumbers, String requestId, Pageable pageable) {
         try {
             return userRepository.findByMobileNumberIn(mobileNumbers, pageable);
@@ -62,6 +66,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    @Transactional
     public Page<User> findAllUsersExceptSome(List<String> userIds, String requestId, Pageable pageable) {
         try {
             return userRepository.findByIdNotIn(userIds, pageable);
