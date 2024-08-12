@@ -22,7 +22,7 @@ public interface FinanceRoomRepository extends JpaRepository<FinanceRoom, String
 
     @Transactional(readOnly = true)
     @Query("SELECT finance_room FROM FinanceRoom finance_room WHERE finance_room.status = :status AND finance_room.id IN :ids")
-    Page<FinanceRoom> findAllByIdAndStatus(@Param("ids") List<String> ids, @Param("status") String status);
+    Page<FinanceRoom> findAllByIdAndStatus(@Param("ids") List<String> ids, @Param("status") String status, Pageable pageable);
 
     @Transactional(readOnly = true)
     @Query("SELECT finance_room FROM FinanceRoom finance_room WHERE finance_room.status = :status")
@@ -30,7 +30,7 @@ public interface FinanceRoomRepository extends JpaRepository<FinanceRoom, String
 
     @Transactional(readOnly = true)
     @Query("SELECT finance_room FROM FinanceRoom finance_room WHERE finance_room.status = :status")
-    Page<FinanceRoom> findAllByStatus(@Param("status") String status);
+    Page<FinanceRoom> findAllByStatus(@Param("status") String status, Pageable pageable);
 
     @Transactional(readOnly = true)
     FinanceRoom findByIdAndStatus(String id, String status);

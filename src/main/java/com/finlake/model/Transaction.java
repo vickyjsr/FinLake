@@ -54,4 +54,7 @@ public class Transaction {
     @Column(name = "updated_at", columnDefinition = "timestamp")
     @UpdateTimestamp
     private Timestamp updatedAt;
+
+    @Version
+    private Integer version;
 }

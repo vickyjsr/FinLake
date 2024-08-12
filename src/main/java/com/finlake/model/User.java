@@ -54,6 +54,9 @@ public class User implements UserDetails {
     @UpdateTimestamp
     private Timestamp updatedAt;
 
+    @Version
+    private Integer version;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 //        return List.of(new SimpleGrantedAuthority(roleType.name()));
@@ -64,8 +67,9 @@ public class User implements UserDetails {
 
     }
 
-    public User(String id, String name, String email, String password, String mobileNumber, RoleType roleType, Timestamp createdAt, Timestamp updatedAt) {
+    public User(String id, String requestId, String name, String email, String password, String mobileNumber, RoleType roleType, Timestamp createdAt, Timestamp updatedAt, Integer version) {
         this.id = id;
+        this.requestId = requestId;
         this.name = name;
         this.email = email;
         this.password = password;
@@ -73,6 +77,7 @@ public class User implements UserDetails {
         this.roleType = roleType;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.version = version;
     }
 
     @Override

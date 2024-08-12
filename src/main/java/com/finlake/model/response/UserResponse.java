@@ -2,8 +2,6 @@ package com.finlake.model.response;
 
 import lombok.*;
 
-import java.sql.Timestamp;
-
 @Data
 @Getter
 @Setter
@@ -19,8 +17,4 @@ public class UserResponse {
     private String email;
 
     private String mobileNumber;
-
-    private Timestamp createdAt;
-
-    private Timestamp updatedAt;
 }

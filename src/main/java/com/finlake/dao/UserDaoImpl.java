@@ -38,6 +38,32 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public User findUserByMobileNumber(String mobileNumber) {
+        try {
+            return userRepository.findByMobileNumber(mobileNumber);
+        } catch (DataAccessException dae) {
+            log.error("Error {} while accessing database during fetching users from database", dae);
+            throw dae;
+        } catch (Exception e) {
+            log.error("Exception {} occur while fetching user by mobileNumber", e);
+            throw e;
+        }
+    }
+
+    @Override
+    public User findUserById(String id) {
+        try {
+            return userRepository.findByUserId(id);
+        } catch (DataAccessException dae) {
+            log.error("Error {} while accessing database during fetching users from database", dae);
+            throw dae;
+        } catch (Exception e) {
+            log.error("Exception {} occur while fetching user by mobileNumber", e);
+            throw e;
+        }
+    }
+
+    @Override
     @Transactional
     public Page<User> findAllUsers(Pageable pageable, String requestId) {
         try {

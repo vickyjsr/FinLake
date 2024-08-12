@@ -23,4 +23,11 @@ public interface UserRepository extends JpaRepository<User, String> {
 
     @Transactional(readOnly = true)
     Page<User> findByMobileNumberIn(List<String> mobileNumber, Pageable pageable);
+
+    @Transactional(readOnly = true)
+    @Query("select user from User user where user.id = :id")
+    User findByUserId(String id);
+
+    @Transactional(readOnly = true)
+    User findByMobileNumber(String mobileNumber);
 }

@@ -27,9 +27,9 @@ public class UserController implements UserControllerApi {
     }
 
     @Override
-    public ResponseEntity<FinlakeResponse<UserResponse>> getUser(String requestId, Pageable pageable, String id) {
-//        todo do it later procrastinating a lot
-        return new ResponseEntity<FinlakeResponse<UserResponse>>(HttpStatus.OK);
+    public ResponseEntity<FinlakeResponse<UserResponse>> getUser(String requestId, String id, String email, String mobileNumber) {
+        UserResponse userResponse = userService.findUser(requestId, id, email, mobileNumber);
+        return baseResponseService.ok(userResponse, requestId, ResponseCode.ALL_USER_FETCHED.getCode());
     }
 
     @Override

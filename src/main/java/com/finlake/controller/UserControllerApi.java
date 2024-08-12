@@ -2,6 +2,7 @@ package com.finlake.controller;
 
 import com.finlake.model.response.FinlakeResponse;
 import com.finlake.model.response.UserResponse;
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -21,9 +22,9 @@ import java.util.List;
 public interface UserControllerApi {
     @GetMapping("/v1/user/get")
     ResponseEntity<FinlakeResponse<UserResponse>> getUser(@RequestHeader @Valid @Size(min = 1, max = 50) String requestId,
-                                                          @PageableDefault(page = 0, size = 10, sort = "createdAt",
-                                                                  direction = Sort.Direction.ASC) Pageable pageable,
-                                                          @Valid @RequestParam(value = "id") String id);
+                                                          @Valid @Nullable @RequestParam(value = "id") String id,
+                                                          @Valid @Nullable @RequestParam(value = "email") String email,
+                                                          @Valid @Nullable @RequestParam(value = "mobileNumber") String mobileNumber);
 
     @GetMapping("/v1/user/list")
     ResponseEntity<FinlakeResponse<Page<UserResponse>>> getUsers(@RequestHeader @Valid @Size(min = 1, max = 50) String requestId,

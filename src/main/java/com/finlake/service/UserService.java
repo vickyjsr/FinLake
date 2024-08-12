@@ -16,4 +16,6 @@ public interface UserService {
     Page<UserResponse> getAllUsersExceptSome(List<String> userIds, String requestId, Pageable pageable);
 
     User getUserByEmail(String email);
+
+    UserResponse findUser(String requestId, String id, String email, String mobileNumber);
 }

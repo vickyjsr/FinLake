@@ -91,15 +91,20 @@ create TABLE IF NOT EXISTS `response_mapper` (
 
 insert into `response_mapper` (`response_code`, `http_status_code`, `response_constant`, `response_message`) values ('1000', '400', 'Internal Server Exception', 'Request is not valid.');
 insert into `response_mapper` (`response_code`, `http_status_code`, `response_constant`, `response_message`) values ('1001', '400', 'Bad Request', 'Request is not valid.');
+insert into `response_mapper` (`response_code`, `http_status_code`, `response_constant`, `response_message`) values ('1002', '412', 'Missing Mandatory Params', 'Request is not valid.');
 insert into `response_mapper` (`response_code`, `http_status_code`, `response_constant`, `response_message`) values ('1004', '401', 'Unauthorized', 'Authorization failed due to various reasons.');
 insert into `response_mapper` (`response_code`, `http_status_code`, `response_constant`, `response_message`) values ('1005', '500', 'Data Access Error', 'Not able to access the database.');
 insert into `response_mapper` (`response_code`, `http_status_code`, `response_constant`, `response_message`) values ('1006', '500', 'Data Converion Error', 'Not able to convert the data.');
+insert into `response_mapper` (`response_code`, `http_status_code`, `response_constant`, `response_message`) values ('1007', '400', 'User does not exists', 'User profile does not exists.');
+insert into `response_mapper` (`response_code`, `http_status_code`, `response_constant`, `response_message`) values ('1008', '400', 'Authentication Failed', 'User Authentication Failed.');
+insert into `response_mapper` (`response_code`, `http_status_code`, `response_constant`, `response_message`) values ('1009', '400', 'Token Generation Error', 'User Token Generation Failed.');
 
+insert into `response_mapper` (`response_code`, `http_status_code`, `response_constant`, `response_message`) values ('2000', '200', 'User Registered Succesfully', 'User registered successfully.');
+insert into `response_mapper` (`response_code`, `http_status_code`, `response_constant`, `response_message`) values ('2001', '200', 'User Authorized Succesfully', 'User authorized successfully.');
 insert into `response_mapper` (`response_code`, `http_status_code`, `response_constant`, `response_message`) values ('2002', '200', 'All Users Fetched', 'All User profile fetched.');
-insert into `response_mapper` (`response_code`, `http_status_code`, `response_constant`, `response_message`) values ('2003', '200', 'User already exists', 'User profile already exists for this email.');
-insert into `response_mapper` (`response_code`, `http_status_code`, `response_constant`, `response_message`) values ('2004', '200', 'User does not exists', 'User profile does not exists for this email.');
-
-insert into `response_mapper` (`response_code`, `http_status_code`, `response_constant`, `response_message`) values ('2005', '200', 'Finance Room Created', 'A new finance room created.');
+insert into `response_mapper` (`response_code`, `http_status_code`, `response_constant`, `response_message`) values ('2003', '202', 'User already exists', 'User profile already exists for this email.');
+insert into `response_mapper` (`response_code`, `http_status_code`, `response_constant`, `response_message`) values ('2004', '200', 'Finance Room Created', 'A new finance room created.');
+insert into `response_mapper` (`response_code`, `http_status_code`, `response_constant`, `response_message`) values ('2005', '200', 'Finance Room Fetched', 'All finance room fetched.');
 
 insert into `response_mapper` (`response_code`, `http_status_code`, `response_constant`, `response_message`) values ('2006', '200', 'Room User Created', 'A new user has added to the room.');
 insert into `response_mapper` (`response_code`, `http_status_code`, `response_constant`, `response_message`) values ('2007', '200', 'Room Users fetched', 'Room users fetched.');

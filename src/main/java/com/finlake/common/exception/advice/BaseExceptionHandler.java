@@ -96,4 +96,22 @@ public class BaseExceptionHandler extends ResponseEntityExceptionHandler {
         log.error("Exception occurred {}", exception);
         return baseExceptionResponse.getErrorResponse(exception.getRequestId(), exception.getErrorCode(), exception.getLocalizedMessage());
     }
+
+    @ExceptionHandler(InvalidFieldFactoryException.class)
+    protected ResponseEntity<Object> handleInvalidFieldFactoryException(InvalidFieldFactoryException exception) {
+        log.error("Exception occurred {}", exception);
+        return baseExceptionResponse.getErrorResponse(exception.getRequestId(), exception.getErrorCode(), exception.getLocalizedMessage());
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    protected ResponseEntity<Object> handleUserNotFoundException(UserNotFoundException exception) {
+        log.error("Exception occurred {}", exception);
+        return baseExceptionResponse.getErrorResponse(exception.getRequestId(), exception.getErrorCode(), exception.getLocalizedMessage());
+    }
+
+    @ExceptionHandler(UserAuthenticationFailedException.class)
+    protected ResponseEntity<Object> handleUserAuthenticationFailedException(UserAuthenticationFailedException exception) {
+        log.error("Exception occurred {}", exception);
+        return baseExceptionResponse.getErrorResponse(exception.getRequestId(), exception.getErrorCode(), exception.getLocalizedMessage());
+    }
 }

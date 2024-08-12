@@ -15,4 +15,8 @@ public interface UserDao {
     Page<User> findAllUsersExceptSome(List<String> userIds, String requestId, Pageable pageable);
 
     User findByEmail(String email);
+
+    User findUserByMobileNumber(String mobileNumber);
+
+    User findUserById(String id);
 }
