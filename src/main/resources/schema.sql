@@ -2,12 +2,12 @@ use finlake;
 create TABLE IF NOT EXISTS `user` (
   `id` varchar(36) NOT NULL,
   `request_id` varchar(50) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `mobile_number` varchar(36) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
   `role_type` varchar(36) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 );
@@ -15,15 +15,13 @@ create TABLE IF NOT EXISTS `user` (
 create TABLE IF NOT EXISTS `finance_room` (
   `id` varchar(36) NOT NULL,
   `request_id` varchar(50) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
   `finance_room_name` varchar(255) DEFAULT NULL,
-  `room_type` varchar(255) DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
   `created_by` varchar(36) DEFAULT NULL,
+  `room_type` varchar(255) DEFAULT NULL,
   `status` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK_finance_rooms_users` (`created_by`),
-  CONSTRAINT `FK_finance_rooms_users` FOREIGN KEY (`created_by`) REFERENCES `user` (`id`)
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 );
 
 create TABLE IF NOT EXISTS `room_user` (
@@ -31,53 +29,43 @@ create TABLE IF NOT EXISTS `room_user` (
   `request_id` varchar(50) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `finance_room` varchar(36) DEFAULT NULL,
-  `user` varchar(36) DEFAULT NULL,
+  `finance_room_id` varchar(36) DEFAULT NULL,
+  `user_id` varchar(36) DEFAULT NULL,
   `status` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK_room_users_finance_rooms` (`finance_room`),
-  KEY `FK_room_users_users` (`user`),
-  CONSTRAINT `FK_room_users_finance_rooms` FOREIGN KEY (`finance_room`) REFERENCES `finance_room` (`id`),
-  CONSTRAINT `FK_room_users_users` FOREIGN KEY (`user`) REFERENCES `user` (`id`)
+  PRIMARY KEY (`id`)
 );
 
 create TABLE IF NOT EXISTS `transaction` (
   `id` varchar(36) NOT NULL,
   `request_id` varchar(50) NOT NULL,
-  `amount` varchar(255) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `description` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `finance_room` varchar(36) DEFAULT NULL,
-  `paid_by_user` varchar(36) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `amount` varchar(255) DEFAULT NULL,
+  `finance_room_id` varchar(36) DEFAULT NULL,
+  `paid_by_user_id` varchar(36) DEFAULT NULL,
   `status` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK_transactions_finance_rooms` (`finance_room`),
-  KEY `FK_transactions_users` (`paid_by_user`),
-  CONSTRAINT `FK_transactions_finance_rooms` FOREIGN KEY (`finance_room`) REFERENCES `finance_room` (`id`),
-  CONSTRAINT `FK_transactions_users` FOREIGN KEY (`paid_by_user`) REFERENCES `user` (`id`)
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 );
 
 create TABLE IF NOT EXISTS `transaction_split` (
   `id` varchar(36) NOT NULL,
   `request_id` varchar(50) NOT NULL,
-  `amount` varchar(255) DEFAULT NULL,
+  `transaction_id` varchar(36) DEFAULT NULL,
+  `user_id` varchar(36) DEFAULT NULL,
+  `received_by_user_id` varchar(36) DEFAULT NULL,
+  `paid_by_user_id` varchar(36) DEFAULT NULL,
+  `split_percent` int DEFAULT NULL,
+  `amount` bigint DEFAULT NULL,
+  `status` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `transaction` varchar(36) DEFAULT NULL,
-  `user` varchar(36) DEFAULT NULL,
-  `status` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK_transaction_splits_transactions` (`transaction`),
-  KEY `FK_transaction_splits_users` (`user`),
-  CONSTRAINT `FK_transaction_splits_transactions` FOREIGN KEY (`transaction`) REFERENCES `transaction` (`id`),
-  CONSTRAINT `FK_transaction_splits_users` FOREIGN KEY (`user`) REFERENCES `user` (`id`)
+  PRIMARY KEY (`id`)
 );
 
 create TABLE IF NOT EXISTS `response_mapper` (
 	`id` bigint NOT NULL auto_increment,
-	`request_id` varchar(50) NOT NULL,
     `response_code` varchar(20) NOT NULL,
     `http_status_code` varchar(20) NOT NULL,
     `response_constant` varchar(100) NOT NULL,

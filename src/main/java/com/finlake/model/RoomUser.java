@@ -35,6 +35,7 @@ public class RoomUser {
     @Column(name = "user_id")
     private String userId;
 
+    @Column(name = "status")
     private String status;
 
     @GeneratedValue
@@ -47,6 +48,6 @@ public class RoomUser {
     @UpdateTimestamp
     private Timestamp updatedAt;
 
-    @Version
-    private Integer version;
+//    @Version
+//    private Integer version;
 }

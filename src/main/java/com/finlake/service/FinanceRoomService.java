@@ -11,9 +11,11 @@ public interface FinanceRoomService {
 
     FinanceRoom save(FinanceRoomRequestDTO financeRoomRequestDTO);
 
-    FinanceRoom getFinanceRoom(String requestId, String id, String status);;
+    FinanceRoom getFinanceRoom(String requestId, String id, String status);
+
+    ;
 
     Page<FinanceRoom> allFinanceRooms(String requestId, String status, Pageable pageable);
 
-    Page<FinanceRoom> filterRoomsByUserId(String requestId, String status, String userId, Pageable pageable);
+    Page<FinanceRoom> filterRoomsByUserId(String requestId, String status, String userId, String roomType, Pageable pageable);
 }

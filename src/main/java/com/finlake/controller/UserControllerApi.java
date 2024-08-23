@@ -20,18 +20,18 @@ import javax.validation.Valid;
 import java.util.List;
 
 public interface UserControllerApi {
-    @GetMapping("/v1/user/get")
+    @GetMapping("v1/user/get")
     ResponseEntity<FinlakeResponse<UserResponse>> getUser(@RequestHeader @Valid @Size(min = 1, max = 50) String requestId,
                                                           @Valid @Nullable @RequestParam(value = "id") String id,
                                                           @Valid @Nullable @RequestParam(value = "email") String email,
                                                           @Valid @Nullable @RequestParam(value = "mobileNumber") String mobileNumber);
 
-    @GetMapping("/v1/user/list")
+    @GetMapping("v1/user/list")
     ResponseEntity<FinlakeResponse<Page<UserResponse>>> getUsers(@RequestHeader @Valid @Size(min = 1, max = 50) String requestId,
                                                                  @PageableDefault(page = 0, size = 10, sort = "createdAt",
                                                                          direction = Sort.Direction.ASC) Pageable pageable);
 
-    @GetMapping("/v1/user/list/except")
+    @GetMapping("v1/user/list/except")
     ResponseEntity<FinlakeResponse<Page<UserResponse>>> findAllUsersFiltered(@RequestHeader @Valid @Size(min = 1, max = 50) String requestId,
                                                                              @RequestParam(value = "userIds") @Valid
                                                                              @NotBlank(message = "user ids cannot be blank")
@@ -40,7 +40,7 @@ public interface UserControllerApi {
                                                                              @PageableDefault(page = 0, size = 10, sort = "createdAt",
                                                                                      direction = Sort.Direction.ASC) Pageable pageable);
 
-    @GetMapping("/v1/user/list/mobile")
+    @GetMapping("v1/user/list/mobile")
     ResponseEntity<FinlakeResponse<Page<UserResponse>>> findAllUsersWithMobileNumber(@RequestHeader @Valid @Size(min = 1, max = 50) String requestId,
                                                                                      @RequestParam(value = "mobileNumbers") @Valid
                                                                                      @NotBlank(message = "mobile numbers cannot be blank")

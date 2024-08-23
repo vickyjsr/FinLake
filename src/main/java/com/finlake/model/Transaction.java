@@ -39,8 +39,8 @@ public class Transaction {
     @Column(name = "status")
     private String status;
 
-    @Column(name = "paid_by_user")
-    private String paidByUser;
+    @Column(name = "paid_by_user_id")
+    private String paidByUserId;
 
     @Column(name = "finance_room_id")
     private String financeRoomId;
@@ -55,6 +55,6 @@ public class Transaction {
     @UpdateTimestamp
     private Timestamp updatedAt;
 
-    @Version
-    private Integer version;
+//    @Version
+//    private Integer version;
 }

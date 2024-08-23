@@ -51,6 +51,6 @@ public class FinanceRoom {
     @UpdateTimestamp
     private Timestamp updatedAt;
 
-    @Version
-    private Integer version;
+//    @Version
+//    private Integer version;
 }

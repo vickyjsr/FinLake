@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
 @CrossOrigin("/v1")
 @RequestMapping("/v1/room")
@@ -32,7 +30,7 @@ public class FinanceRoomController implements FinanceRoomControllerApi {
     }
 
     @Override
-    public ResponseEntity<FinlakeResponse<FinanceRoom>> saveFinanceRoom(String requestId, FinanceRoomRequestDTO financeRoomRequestDTO) {
+    public ResponseEntity<FinlakeResponse<FinanceRoom>> saveFinanceRoom(FinanceRoomRequestDTO financeRoomRequestDTO) {
         FinanceRoom financeRoom = financeRoomService.save(financeRoomRequestDTO);
         return baseResponseService.ok(financeRoom, financeRoomRequestDTO.getRequestId(), ResponseCode.FINANCE_ROOM_CREATED.getCode());
     }
@@ -50,8 +48,8 @@ public class FinanceRoomController implements FinanceRoomControllerApi {
     }
 
     @Override
-    public ResponseEntity<FinlakeResponse<Page<FinanceRoom>>> filterUserFromFinanceRoom(String requestId, Pageable pageable, String status, String userId) {
-        Page<FinanceRoom> financeRooms = financeRoomService.filterRoomsByUserId(requestId, status, userId, pageable);
+    public ResponseEntity<FinlakeResponse<Page<FinanceRoom>>> filterUserFromFinanceRoom(String requestId, Pageable pageable, String status, String userId, String roomType) {
+        Page<FinanceRoom> financeRooms = financeRoomService.filterRoomsByUserId(requestId, status, userId, roomType, pageable);
         return baseResponseService.ok(financeRooms, requestId, ResponseCode.FINANCE_ROOM_FETCHED.getCode());
     }
 

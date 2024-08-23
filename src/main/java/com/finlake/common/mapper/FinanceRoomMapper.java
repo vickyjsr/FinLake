@@ -8,11 +8,16 @@ import com.finlake.model.request.FinanceRoomRequestDTO;
 import org.mapstruct.*;
 import org.springframework.stereotype.Component;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", imports = {RoomType.class})
 @Component
 public abstract class FinanceRoomMapper {
 
-    @BeanMapping(qualifiedByName = "createFinanceRoom", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(target = "roomType", expression = "java(RoomType.getType(financeRoomRequestDTO.getRoomType()))")
+    @Mapping(target = "financeRoomName", source = "financeRoomName")
+    @Mapping(target = "createdBy", source = "createdBy")
+    @Mapping(target = "requestId", source = "requestId")
+    @Mapping(target = "status", source = "status")
     public abstract FinanceRoom mapToFinanceRoom(FinanceRoomRequestDTO financeRoomRequestDTO);
 
     @Named("createFinanceRoomFromFinanceRoomRequestDTO")
@@ -23,6 +28,7 @@ public abstract class FinanceRoomMapper {
             financeRoomBuilder.roomType(RoomType.getType(financeRoomRequestDTO.getRoomType()));
             financeRoomBuilder.createdBy(financeRoomRequestDTO.getCreatedBy());
             financeRoomBuilder.requestId(financeRoomRequestDTO.getRequestId());
+            financeRoomBuilder.status(financeRoomRequestDTO.getStatus());
         } catch (Exception e) {
             throw new InternalServerException(financeRoomRequestDTO.getRequestId(), ResponseCode.DATA_CONVERSION_ERROR);
         }

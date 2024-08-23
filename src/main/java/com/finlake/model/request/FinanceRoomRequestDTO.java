@@ -17,6 +17,8 @@ public class FinanceRoomRequestDTO {
 
     private String roomType;
 
+    private String status;
+
     private List<String> userIds;
 
     String requestId;

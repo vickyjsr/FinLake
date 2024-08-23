@@ -1,4 +1,4 @@
-package com.finlake.common.strategy;
+package com.finlake.common.strategy.user;
 
 import com.finlake.model.User;
 

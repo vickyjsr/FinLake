@@ -33,12 +33,17 @@ public class TransactionSplit {
     @Column(name = "user_id")
     private String userId;
 
-    //    todo should i store a paid_by too??
-    @Column(name = "paid_by_user")
-    private String paidByUser;
+    @Column(name = "received_by_user_id")
+    private String receivedByUserId;
+
+    @Column(name = "paid_by_user_id")
+    private String paidByUserId;
+
+    @Column(name = "split_percent")
+    private int splitPercent;
 
     @Column(name = "amount")
-    private String amount;
+    private int amount;
 
     @Column(name = "status")
     private String status;
@@ -53,6 +58,6 @@ public class TransactionSplit {
     @UpdateTimestamp
     private Timestamp updatedAt;
 
-    @Version
-    private Integer version;
+//    @Version
+//    private Integer version;
 }

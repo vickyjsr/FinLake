@@ -16,8 +16,7 @@ import java.util.List;
 
 public interface FinanceRoomControllerApi {
     @PostMapping("/new")
-    ResponseEntity<FinlakeResponse<FinanceRoom>> saveFinanceRoom(@RequestHeader @Valid @Size(min = 1, max = 50) String requestId,
-                                                                 @RequestBody FinanceRoomRequestDTO financeRoomRequestDTO);
+    ResponseEntity<FinlakeResponse<FinanceRoom>> saveFinanceRoom(@RequestBody FinanceRoomRequestDTO financeRoomRequestDTO);
 
     @GetMapping("/get")
     ResponseEntity<FinlakeResponse<FinanceRoom>> getFinanceRoom(@RequestHeader @Valid @Size(min = 1, max = 50) String requestId,
@@ -36,5 +35,6 @@ public interface FinanceRoomControllerApi {
                                                                                  @PageableDefault(page = 0, size = 10, sort = "createdAt",
                                                                                          direction = Sort.Direction.ASC) Pageable pageable,
                                                                                  @RequestParam(name = "status", required = false, defaultValue = "active") String status,
-                                                                                 @RequestParam(name = "userId") String userId);
+                                                                                 @RequestParam(name = "userId") String userId,
+                                                                                 @RequestParam(name = "roomType") String roomType);
 }

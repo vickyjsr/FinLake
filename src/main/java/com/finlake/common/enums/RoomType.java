@@ -11,7 +11,7 @@ public enum RoomType {
     }
 
     public static RoomType getType(String roomType) {
-        if (roomType == "one_on_one") {
+        if (roomType.equalsIgnoreCase("one_on_one")) {
             return ONE_ON_ONE;
         } else {
             return GROUP;

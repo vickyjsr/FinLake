@@ -3,13 +3,15 @@ package com.finlake.service;
 import com.finlake.common.enums.ResponseCode;
 import com.finlake.common.exception.DataConversionError;
 import com.finlake.common.exception.InternalServerException;
+import com.finlake.common.exception.UserNotFoundException;
 import com.finlake.common.mapper.FinanceRoomMapper;
-import com.finlake.common.mapper.RoomUserMapper;
 import com.finlake.dao.FinanceRoomDaoImpl;
+import com.finlake.dao.UserDaoImpl;
 import com.finlake.model.FinanceRoom;
-import com.finlake.model.RoomUser;
+import com.finlake.model.User;
 import com.finlake.model.request.FinanceRoomRequestDTO;
 import com.finlake.model.request.RoomUserDTO;
+import com.finlake.model.response.UserResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,17 +27,23 @@ public class FinanceRoomServiceImpl implements FinanceRoomService {
     private final FinanceRoomDaoImpl financeRoomDao;
     private final FinanceRoomMapper financeRoomMapper;
     private final RoomUserServiceImpl roomUserService;
+    private final UserDaoImpl userDao;
 
-    public FinanceRoomServiceImpl(FinanceRoomMapper financeRoomMapper, FinanceRoomDaoImpl financeRoomDao, RoomUserServiceImpl roomUserService) {
+    public FinanceRoomServiceImpl(FinanceRoomMapper financeRoomMapper, FinanceRoomDaoImpl financeRoomDao, RoomUserServiceImpl roomUserService, UserDaoImpl userDao) {
         this.financeRoomDao = financeRoomDao;
         this.financeRoomMapper = financeRoomMapper;
         this.roomUserService = roomUserService;
+        this.userDao = userDao;
     }
 
     @Override
     @Transactional
     public FinanceRoom save(FinanceRoomRequestDTO financeRoomRequestDTO) {
         FinanceRoom newFinanceRoom = null;
+        User user = userDao.findUserById(financeRoomRequestDTO.getCreatedBy());
+        if (user == null) {
+            throw new UserNotFoundException(financeRoomRequestDTO.getRequestId(), ResponseCode.USER_DOES_NOT_EXIST);
+        }
         try {
             FinanceRoom financeRoom = financeRoomMapper.mapToFinanceRoom(financeRoomRequestDTO);
             newFinanceRoom = financeRoomDao.save(financeRoom);
@@ -45,9 +53,11 @@ public class FinanceRoomServiceImpl implements FinanceRoomService {
         }
         try {
             List<String> userIds = financeRoomRequestDTO.getUserIds();
+//            todo put a check here also if user is present in db or not
+            userIds.add(financeRoomRequestDTO.getCreatedBy());
             FinanceRoom finalNewFinanceRoom = newFinanceRoom;
             userIds.forEach(userId -> {
-                RoomUserDTO roomUserDTO = RoomUserDTO.builder().financeRoomId(finalNewFinanceRoom.getId()).userId(userId).status("active").build();
+                RoomUserDTO roomUserDTO = RoomUserDTO.builder().requestId(financeRoomRequestDTO.getRequestId()).financeRoomId(finalNewFinanceRoom.getId()).userId(userId).status("active").build();
                 roomUserService.saveRoomUser(roomUserDTO);
             });
         } catch (Exception e) {
@@ -67,7 +77,7 @@ public class FinanceRoomServiceImpl implements FinanceRoomService {
     }
 
     @Override
-    public Page<FinanceRoom> filterRoomsByUserId(String requestId, String status, String userId, Pageable pageable) {
-        return financeRoomDao.filterRoomsByUserId(requestId, status, userId, pageable);
+    public Page<FinanceRoom> filterRoomsByUserId(String requestId, String status, String userId, String roomType, Pageable pageable) {
+        return financeRoomDao.filterRoomsByUserId(requestId, status, userId, roomType, pageable);
     }
 }

@@ -1,6 +1,7 @@
 package com.finlake.dao;
 
 import com.finlake.common.enums.ResponseCode;
+import com.finlake.common.enums.RoomType;
 import com.finlake.common.exception.InternalServerException;
 import com.finlake.model.FinanceRoom;
 import com.finlake.repository.FinanceRoomRepository;
@@ -67,9 +68,9 @@ public class FinanceRoomDaoImpl implements FinanceRoomDao {
 
     @Override
     @Transactional
-    public Page<FinanceRoom> filterRoomsByUserId(String requestId, String status, String userId, Pageable pageable) {
+    public Page<FinanceRoom> filterRoomsByUserId(String requestId, String status, String userId, String roomType, Pageable pageable) {
         try {
-            return financeRoomRepository.findAllByCreatedByIdAndStatus(userId, status, pageable);
+            return financeRoomRepository.findAllByRoomUserIdAndStatus(userId, RoomType.getType(roomType), status, pageable);
         } catch (DataAccessException dae) {
             log.error("Error {} while accessing database during fetching all finance rooms by user id and status from database for request id {}", dae, requestId);
             throw new InternalServerException(requestId, ResponseCode.DATABASE_ACCESS_ERROR);

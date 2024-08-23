@@ -1,13 +1,14 @@
-package com.finlake.common.strategy;
+package com.finlake.common.strategy.user;
 
 import com.finlake.common.enums.ResponseCode;
 import com.finlake.common.exception.InvalidFieldFactoryException;
+import com.finlake.common.strategy.RetrieveStrategy;
 import com.finlake.model.User;
 
 import java.util.function.Function;
 
 public class GetUserStrategy {
-    private final RetrieveStrategy strategy;
+    private final RetrieveStrategy<User> strategy;
 
     public GetUserStrategy(UserRetrieveStrategyImpl userRetrieveStrategy, String email, String mobileNumber, String id, String requestId) {
         if (email != null && !email.isEmpty()) {
