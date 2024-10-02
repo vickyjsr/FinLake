@@ -27,6 +27,7 @@ public class BaseExceptionResponse {
             case "202" -> ResponseEntity.status(HttpStatus.ACCEPTED).body(body);
             case "400" -> ResponseEntity.badRequest().body(body);
             case "401" -> ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(body);
+            case "403" -> ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(body);
             case "412" -> ResponseEntity.status(HttpStatus.PRECONDITION_FAILED).body(body);
             default -> ResponseEntity.internalServerError().body(body);
         };

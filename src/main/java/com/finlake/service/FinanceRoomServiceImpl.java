@@ -1,5 +1,6 @@
 package com.finlake.service;
 
+import com.finlake.common.enums.GlobalEnum;
 import com.finlake.common.enums.ResponseCode;
 import com.finlake.common.exception.DataConversionError;
 import com.finlake.common.exception.InternalServerException;
@@ -57,7 +58,7 @@ public class FinanceRoomServiceImpl implements FinanceRoomService {
             userIds.add(financeRoomRequestDTO.getCreatedBy());
             FinanceRoom finalNewFinanceRoom = newFinanceRoom;
             userIds.forEach(userId -> {
-                RoomUserDTO roomUserDTO = RoomUserDTO.builder().requestId(financeRoomRequestDTO.getRequestId()).financeRoomId(finalNewFinanceRoom.getId()).userId(userId).status("active").build();
+                RoomUserDTO roomUserDTO = RoomUserDTO.builder().requestId(financeRoomRequestDTO.getRequestId()).financeRoomId(finalNewFinanceRoom.getId()).userId(userId).status(GlobalEnum.STATUS_ACTIVE.getStringValue()).build();
                 roomUserService.saveRoomUser(roomUserDTO);
             });
         } catch (Exception e) {
