@@ -69,7 +69,7 @@ public class TransactionSplitServiceImpl implements TransactionSplitService {
         try {
             transactionSplit = transactionSplitMapper.mapToTransactionSplit(transactionSplitDTO);
         } catch (Exception e) {
-            log.error("Exception {} occured while creating transaction split with request id {}", e, transactionSplitDTO.getTransactionId());
+            log.error("Exception {} occured while creating transaction split with request id {}", e, transactionSplitDTO.getRequestId());
             throw new DataConversionError(transactionSplitDTO.getRequestId(), ResponseCode.DATA_CONVERSION_ERROR);
         }
         try {
