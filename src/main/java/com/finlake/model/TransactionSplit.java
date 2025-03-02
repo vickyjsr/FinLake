@@ -40,10 +40,10 @@ public class TransactionSplit {
     private String paidByUserId;
 
     @Column(name = "split_percent")
-    private int splitPercent;
+    private String splitPercent;
 
     @Column(name = "amount")
-    private int amount;
+    private String amount;
 
     @Column(name = "status")
     private String status;

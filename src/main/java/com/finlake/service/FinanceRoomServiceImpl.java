@@ -12,7 +12,6 @@ import com.finlake.model.FinanceRoom;
 import com.finlake.model.User;
 import com.finlake.model.request.FinanceRoomRequestDTO;
 import com.finlake.model.request.RoomUserDTO;
-import com.finlake.model.response.UserResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -79,6 +78,9 @@ public class FinanceRoomServiceImpl implements FinanceRoomService {
 
     @Override
     public Page<FinanceRoom> filterRoomsByUserId(String requestId, String status, String userId, String roomType, Pageable pageable) {
-        return financeRoomDao.filterRoomsByUserId(requestId, status, userId, roomType, pageable);
+        Page<FinanceRoom> result = financeRoomDao.filterRoomsByUserId(requestId, status, userId, roomType, pageable);
+        log.info("Found {} total elements, {} elements in current page, total pages: {}", 
+                 result.getTotalElements(), result.getNumberOfElements(), result.getTotalPages());
+        return result;
     }
 }

@@ -14,7 +14,7 @@ import java.util.List;
 public interface FinanceRoomRepository extends JpaRepository<FinanceRoom, String> {
 
     @Transactional(readOnly = true)
-    @Query("SELECT fr FROM FinanceRoom fr JOIN RoomUser ru on ru.financeRoomId = fr.id WHERE fr.roomType = :roomType and fr.status = :status and ru.userId = :userId")
+    @Query("SELECT DISTINCT fr FROM FinanceRoom fr JOIN RoomUser ru on ru.financeRoomId = fr.id " + "WHERE fr.roomType = :roomType and fr.status = :status and ru.userId = :userId")
     Page<FinanceRoom> findAllByRoomUserIdAndStatus(@Param("userId") String userId, @Param("roomType") RoomType roomType, @Param("status") String status, Pageable pageable);
 
     @Transactional(readOnly = true)

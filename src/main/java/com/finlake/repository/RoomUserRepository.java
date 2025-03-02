@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 public interface RoomUserRepository extends JpaRepository<RoomUser, String> {
 
     @Transactional(readOnly = true)
@@ -25,4 +27,7 @@ public interface RoomUserRepository extends JpaRepository<RoomUser, String> {
     @Transactional(readOnly = true)
     @Query("SELECT ru from RoomUser ru where ru.status = :status")
     Page<RoomUser> findAllRoomUsers(Pageable pageable);
+
+    @Query("SELECT u FROM RoomUser ru JOIN User u on ru.userId = u.id WHERE ru.financeRoomId = :financeRoomId AND ru.status = :status")
+    List<User> findAllByFinanceRoomIdAndStatus(String financeRoomId, String status);
 }

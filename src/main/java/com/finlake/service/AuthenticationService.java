@@ -59,6 +59,7 @@ public class AuthenticationService {
                 .token(jwtToken)
                 .requestId(request.getRequestId())
                 .userId(user.getId())
+                .userName(user.getName())
                 .requestId(request.getRequestId())
                 .responseCode(ResponseCode.USER_REGISTERED.getCode())
                 .build();
@@ -84,6 +85,7 @@ public class AuthenticationService {
                     .token(jwtToken)
                     .requestId(request.getRequestId())
                     .userId(user.getId())
+                    .userName(user.getName())
                     .requestId(request.getRequestId())
                     .responseCode(ResponseCode.USER_AUTHORIZED.getCode())
                     .build();

@@ -14,6 +14,7 @@ public class AuthenticationResponse {
     private String requestId;
     private String token;
     private String userId;
+    private String userName;
 
     @JsonIgnore
     String responseCode;

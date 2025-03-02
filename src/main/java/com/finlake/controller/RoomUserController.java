@@ -5,6 +5,8 @@ import com.finlake.model.RoomUser;
 import com.finlake.model.User;
 import com.finlake.model.request.RoomUserDTO;
 import com.finlake.model.response.FinlakeResponse;
+import com.finlake.model.response.RoomUserResponse;
+import com.finlake.model.response.UserResponse;
 import com.finlake.service.BaseResponseService;
 import com.finlake.service.RoomUserServiceImpl;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -14,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin("/v1")
@@ -50,6 +54,12 @@ public class RoomUserController implements RoomUserControllerApi {
     @Override
     public ResponseEntity<FinlakeResponse<Page<User>>> filterFinanceRoomFromRoomUser(String requestId, Pageable pageable, String status, String financeRoomId) {
         Page<User> users = roomUserService.filterFinanceRoomFromRoomUser(requestId, pageable, status, financeRoomId);
+        return baseResponseService.ok(users, requestId, ResponseCode.ROOM_USER_FETCHED.getCode());
+    }
+
+    @Override
+    public ResponseEntity<FinlakeResponse<List<UserResponse>>> getRoomUsersWithUserId(String requestId, String financeRoomId, String status) {
+        List<UserResponse> users = roomUserService.getRoomUsersWithUserId(requestId, financeRoomId, status);
         return baseResponseService.ok(users, requestId, ResponseCode.ROOM_USER_FETCHED.getCode());
     }
 }

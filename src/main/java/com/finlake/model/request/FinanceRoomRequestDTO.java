@@ -21,5 +21,5 @@ public class FinanceRoomRequestDTO {
 
     private List<String> userIds;
 
-    String requestId;
+    private String requestId;
 }

@@ -2,6 +2,7 @@ package com.finlake.service;
 
 import com.finlake.model.FinanceRoom;
 import com.finlake.model.request.FinanceRoomRequestDTO;
+import com.finlake.model.response.RoomUserResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -12,8 +13,6 @@ public interface FinanceRoomService {
     FinanceRoom save(FinanceRoomRequestDTO financeRoomRequestDTO);
 
     FinanceRoom getFinanceRoom(String requestId, String id, String status);
-
-    ;
 
     Page<FinanceRoom> allFinanceRooms(String requestId, String status, Pageable pageable);
 

@@ -96,3 +96,8 @@ insert into `response_mapper` (`response_code`, `http_status_code`, `response_co
 
 insert into `response_mapper` (`response_code`, `http_status_code`, `response_constant`, `response_message`) values ('2006', '200', 'Room User Created', 'A new user has added to the room.');
 insert into `response_mapper` (`response_code`, `http_status_code`, `response_constant`, `response_message`) values ('2007', '200', 'Room Users fetched', 'Room users fetched.');
+insert into `response_mapper` (`response_code`, `http_status_code`, `response_constant`, `response_message`) values ('2008', '200', 'Transaction created', 'A new transaction has been recorded.');
+insert into `response_mapper` (`response_code`, `http_status_code`, `response_constant`, `response_message`) values ('2009', '200', 'Transaction fetched', 'Transaction has been fetched.');
+insert into `response_mapper` (`response_code`, `http_status_code`, `response_constant`, `response_message`) values ('2010', '200', 'Transaction updated', 'Transaction has been updated.');
+
+insert into `response_mapper` (`response_code`, `http_status_code`, `response_constant`, `response_message`) values ('2011', '200', 'Data does not exist', 'Data does not exist in table.');

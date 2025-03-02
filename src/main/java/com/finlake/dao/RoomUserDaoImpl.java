@@ -13,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Component
 @Slf4j
 public class RoomUserDaoImpl implements RoomUserDao {
@@ -70,6 +72,19 @@ public class RoomUserDaoImpl implements RoomUserDao {
     public Page<User> filterFinanceRoomFromRoomUser(String requestId, Pageable pageable, String status, String financeRoomId) {
         try {
             return roomUserRepository.findAllByFinanceRoomId(financeRoomId, status, pageable);
+        } catch (DataAccessException dae) {
+            log.error("Error {} while accessing database during fetching room users by financeRoomId from database for request id {}", dae, requestId);
+            throw new InternalServerException(requestId, ResponseCode.DATABASE_ACCESS_ERROR);
+        } catch (Exception e) {
+            log.error("Error {} while fetching room users by financeRoomId from database for request id {}", e, requestId);
+            throw new InternalServerException(requestId, ResponseCode.INTERNAL_SERVER_EXCEPTION);
+        }
+    }
+
+    @Override
+    public List<User> getRoomUsersWithUser(String requestId, String financeRoomId, String status) {
+        try {
+            return roomUserRepository.findAllByFinanceRoomIdAndStatus(financeRoomId, status);
         } catch (DataAccessException dae) {
             log.error("Error {} while accessing database during fetching room users by financeRoomId from database for request id {}", dae, requestId);
             throw new InternalServerException(requestId, ResponseCode.DATABASE_ACCESS_ERROR);

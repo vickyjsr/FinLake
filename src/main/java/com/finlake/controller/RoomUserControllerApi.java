@@ -4,6 +4,8 @@ import com.finlake.model.RoomUser;
 import com.finlake.model.User;
 import com.finlake.model.request.RoomUserDTO;
 import com.finlake.model.response.FinlakeResponse;
+import com.finlake.model.response.RoomUserResponse;
+import com.finlake.model.response.UserResponse;
 import jakarta.validation.constraints.Size;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 public interface RoomUserControllerApi {
 
@@ -39,4 +42,10 @@ public interface RoomUserControllerApi {
                     direction = Sort.Direction.ASC) Pageable pageable,
             @RequestParam(name = "status", required = false, defaultValue = "active") String status,
             @RequestParam(name = "financeRoomId") String financeRoomId);
+
+    @GetMapping("/{financeRoomId}")
+    ResponseEntity<FinlakeResponse<List<UserResponse>>> getRoomUsersWithUserId(
+            @RequestHeader @Valid @Size(min = 1, max = 50) String requestId,
+            @PathVariable String financeRoomId,
+            @RequestParam(name = "status", required = false, defaultValue = "active") String status);
 }
