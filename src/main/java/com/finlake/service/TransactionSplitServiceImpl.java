@@ -6,9 +6,9 @@ import com.finlake.common.exception.DataConversionError;
 import com.finlake.common.exception.InternalServerException;
 import com.finlake.common.mapper.TransactionSplitMapper;
 import com.finlake.dao.TransactionSplitDaoImpl;
+import com.finlake.dao.TransactionDaoImpl;
 import com.finlake.model.TransactionSplit;
 import com.finlake.model.request.TransactionSplitDTO;
-import com.finlake.model.response.TransactionResponse;
 import com.finlake.model.response.TransactionSplitResponse;
 import com.finlake.model.response.UserResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -25,13 +25,13 @@ public class TransactionSplitServiceImpl implements TransactionSplitService {
     private final TransactionSplitDaoImpl transactionSplitDao;
     private final TransactionSplitMapper transactionSplitMapper;
     private final UserServiceImpl userServiceImpl;
-    private final TransactionService transactionService;
+    private final TransactionDaoImpl transactionDao;
 
-    public TransactionSplitServiceImpl(TransactionSplitDaoImpl transactionSplitDao, TransactionSplitMapper transactionSplitMapper, UserServiceImpl userServiceImpl, TransactionService transactionService) {
+    public TransactionSplitServiceImpl(TransactionSplitDaoImpl transactionSplitDao, TransactionSplitMapper transactionSplitMapper, UserServiceImpl userServiceImpl, TransactionDaoImpl transactionDao) {
         this.transactionSplitDao = transactionSplitDao;
         this.transactionSplitMapper = transactionSplitMapper;
         this.userServiceImpl = userServiceImpl;
-        this.transactionService = transactionService;
+        this.transactionDao = transactionDao;
     }
 
     @Override
@@ -39,9 +39,7 @@ public class TransactionSplitServiceImpl implements TransactionSplitService {
         try {
             List<TransactionSplit> transactionSplits = transactionSplitDao.getTransactionSplit(transactionId, requestId);
             List<TransactionSplitResponse> transactionSplitResponseList = new ArrayList<>();
-            transactionSplits.forEach(transactionSplit -> {
-                transactionSplitResponseList.add(convertSplitToResponse(transactionSplit));
-            });
+            transactionSplits.forEach(transactionSplit -> transactionSplitResponseList.add(convertSplitToResponse(transactionSplit)));
             return transactionSplitResponseList;
         } catch (InternalServerException | DataConversionError e) {
             throw e;
@@ -55,9 +53,7 @@ public class TransactionSplitServiceImpl implements TransactionSplitService {
         try {
             List<TransactionSplit> transactionSplits = transactionSplitDao.getTransactionSplit(transactionId, requestId);
             List<TransactionSplitResponse> transactionSplitResponseList = new ArrayList<>();
-            transactionSplits.forEach(transactionSplit -> {
-                transactionSplitResponseList.add(convertSplitToResponse(transactionSplit));
-            });
+            transactionSplits.forEach(transactionSplit -> transactionSplitResponseList.add(convertSplitToResponse(transactionSplit)));
             return transactionSplitResponseList;
         } catch (InternalServerException | DataConversionError e) {
             throw e;
@@ -115,8 +111,8 @@ public class TransactionSplitServiceImpl implements TransactionSplitService {
                 break;
             }
         }
-        if (parentSettlementDone) {
-            TransactionResponse transactionResponse = transactionService.updateTransactionRecord(transactionId, GlobalEnum.STATUS_INACTIVE.getStringValue(), requestId);
+        if (!parentSettlementDone) {
+            transactionDao.updateTransaction(transactionId, GlobalEnum.STATUS_INACTIVE.getStringValue(), requestId);
         }
     }
 
